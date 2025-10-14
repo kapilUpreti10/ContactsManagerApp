@@ -1,0 +1,13 @@
+Some shortcuts keys used in notepad 
+
+1. ctrl+A    select all
+2. cursor lai sidhai tei lineko  first position ma launa paryo vane sidhai home keys click garne 
+3. page up le sidhai first line ko first lagaixa cursor jata vayepani 
+4. windows + arrow (left, right)       to create multiple windows
+5. windows+ shift +s to screen shot particular area
+6. windows + x + uu
+7.windows + screen
+8 windows + h to voice typing
+9.ctrl+shift+esc to open task manager
+10.windows+d     to minimize the app at once
+11. windows+d  to minimize at different shape

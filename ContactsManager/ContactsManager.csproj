@@ -4,11 +4,13 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <EnableDefaultItems>true</EnableDefaultItems>
+   
   </PropertyGroup>
 
   <ItemGroup>
+    
     <Folder Include="wwwroot\" />
+    
   </ItemGroup>
 
 </Project>
