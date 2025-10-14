@@ -12,5 +12,8 @@
     <Folder Include="wwwroot\" />
     
   </ItemGroup>
+	<Target Name="Tailwind" BeforeTargets="Build">
+		<Exec Command="npm run build-css" />
+	</Target>
 
 </Project>
