@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactsManager", "ContactsManager\ContactsManager.csproj", "{3987F2A8-B52B-4BDB-B6C6-3A361C4C3417}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstTest", "FirstTest\FirstTest.csproj", "{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +29,23 @@ Global
 		{3987F2A8-B52B-4BDB-B6C6-3A361C4C3417}.Release|x64.Build.0 = Release|Any CPU
 		{3987F2A8-B52B-4BDB-B6C6-3A361C4C3417}.Release|x86.ActiveCfg = Release|Any CPU
 		{3987F2A8-B52B-4BDB-B6C6-3A361C4C3417}.Release|x86.Build.0 = Release|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Debug|x64.Build.0 = Debug|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Debug|x86.Build.0 = Debug|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Release|x64.ActiveCfg = Release|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Release|x64.Build.0 = Release|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Release|x86.ActiveCfg = Release|Any CPU
+		{2CBB8060-6BB9-41AD-8EC0-75F973F9713A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {109C71F3-D626-4B09-80ED-F4E6A57B46B1}
 	EndGlobalSection
 EndGlobal

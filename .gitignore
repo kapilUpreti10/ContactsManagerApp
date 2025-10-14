@@ -3,6 +3,11 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+
+#remove the output.css
+/ContactsManager/wwwroot/css/output.css
+
+
 # dotenv files
 .env
 
