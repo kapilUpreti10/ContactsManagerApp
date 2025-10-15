@@ -1,12 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+
+using Entities;
 
 namespace ServiceContracts.dto
 {
-    internal class CountryRequest
+    /// <summary>
+    /// DTO class for adding a new country
+    /// </summary>
+    public class AddCountryRequest
     {
+        public string? CountryName { get; set; }
+    // after validating the CountryName property of this dto now the obj of type Contry model should be created as it is the actual model which will be stored in the db
+
+        public Country ConverDtoToCountry()
+
+        // since Country is in different project(entities so we must add a reference of that project in this project
+        {
+            return new Country()
+            {
+                CountryName = this.CountryName
+            };
+        }
     }
 }
