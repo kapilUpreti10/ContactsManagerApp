@@ -22,6 +22,8 @@ namespace ServiceContracts.dto
     public static class CountryResponseExtension
     { 
     
+
+        // converting domain model to dto as domain model is never exposed to controller or outside 
         public static CountryResponse ConvertCountryToCountryResponse(this Country country)
         {
             return new CountryResponse()
