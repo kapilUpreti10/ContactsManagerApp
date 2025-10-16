@@ -14,6 +14,8 @@ namespace Services
             _countries = new List<Country>();
 
         }
+
+        #region AddCountry
         public CountryResponse AddCountry(AddCountryRequest? countryRequest)
         {
 
@@ -68,6 +70,42 @@ namespace Services
 
         
         }
+        #endregion
+
+
+
+        #region GetCountryById
+
+
+        public CountryResponse? GetCountryById(Guid? countryId)
+        {
+            if (countryId == null)
+            {
+                return null;
+            }
+
+            if (countryId == Guid.Empty)
+            {
+                throw new ArgumentException("countryId cannot be empty");
+            }
+
+            // if countryId is neither null or empty then check if it is valid countryId or not
+
+            Country IsValid_Country_Response=_countries.FirstOrDefault(country => country.Id == countryId);
+
+            if (IsValid_Country_Response == null)
+            {
+                return null;
+            }
+            else
+            {
+
+                return IsValid_Country_Response.ConvertCountryToCountryResponse();
+
+            }
+        }
+
+#endregion
 
     }
 }

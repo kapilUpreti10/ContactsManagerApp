@@ -28,6 +28,8 @@ namespace FirstTest
 
         }
 
+
+        #region AddCountry
         // the test cases we need to perform are::
 
         //1. check if the argument is null or not ie AddCountryRequest object is null or not if yes it should throw argument null exception
@@ -139,5 +141,90 @@ namespace FirstTest
 
         // note:: here we dont test whethere the country name is valid or not ,if it is greateer that 3 char or not etc as that can be tested using validator
         // in the class
+
+        #endregion
+
+
+
+        // note each test case runs independently so the list of countries will be empty for each test case as the constructor of CountriesService class will be called for each test case
+
+        #region GetCountryById
+
+        //1. check if the couuntryId is empty or not 
+
+        [Fact]
+
+        public void GetCountryById_EmptyCountryId()
+        {
+            //1.Arrange
+            Guid test1 = Guid.Empty;
+
+            //2.Assert
+
+            Assert.Throws<ArgumentException>(() => _countriesService.GetCountryById(test1));
+        }
+
+
+        [Fact]
+
+        //2. check if the the countryId is null or not
+
+        public void GetCountryById_NullCountryId()
+        {
+            //1. Arrange
+            Guid? test2 = null;
+
+
+            //2. Act
+           CountryResponse response_Country_from_id= _countriesService.GetCountryById(test2);
+
+            //3.Assert
+
+            Assert.Null(response_Country_from_id);  // as the countryId is null so it should return null
+        }
+
+        //3 check if the countryId is not found in the list/db it should return null 
+
+        [Fact]
+
+        public void GetCountryById_CountryIdNotFound()
+        {
+            //1.Arrange
+            Guid test3 = Guid.NewGuid(); // as the list is empty so any guid we generate will not be found in the list
+            //2.Act
+            CountryResponse? response_country_from_id = _countriesService.GetCountryById(test3);
+            //3.Assert
+            Assert.Null(response_country_from_id); // as the countryId is not found in the list so it should return null
+        }
+
+        //4. if the countryId is found in the list/db it should return the countryResponse object
+
+        [Fact]
+
+        public void GetCountryById_CountryIdValidAndFound()
+        {
+            //1.Arrange
+            // but at first we should make sure that the list is not empty so we will add a country first and then we will get the countryId from the returned CountryResponse object and then we will use that countryId to get the
+            // countryResponse object using GetCountryById method
+
+            AddCountryRequest? request = new AddCountryRequest()
+            {
+                CountryName = "China"
+            };
+
+            CountryResponse response_from_add=_countriesService.AddCountry(request);
+
+            //2.act
+            CountryResponse country_response_from_get=_countriesService.GetCountryById(response_from_add.Id);
+
+
+            //3.Assert
+
+            Assert.Equal(response_from_add.Id, country_response_from_get.Id); // to check if the countryId in both the response are same
+
+
+        }
+
+        #endregion
     }
 }
