@@ -105,7 +105,24 @@ namespace Services
             }
         }
 
-#endregion
+        #endregion
+
+
+        #region GetAllCountries
+
+
+        public List<CountryResponse> GetAllCountries()
+        {
+            // here since select return    IEnumerable so we have to convert it to list using ToList() method as our return type is List<CountryResponse>
+            // here select is used to project each country object .Think of Select as “for each item, make a new version of it.”
+
+            return _countries.Select(country => country.ConvertCountryToCountryResponse()).ToList();
+        }
+
+      
+
+
+        #endregion
 
     }
 }

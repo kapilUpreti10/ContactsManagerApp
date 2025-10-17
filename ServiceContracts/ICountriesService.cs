@@ -25,5 +25,13 @@ namespace ServiceContracts
         /// <returns></returns>
         CountryResponse? GetCountryById(Guid? countryId);
 
+
+
+        /// <summary>
+        /// this returns the list of all countries of CountryResponse type
+        /// </summary>
+        /// <returns></returns>
+        List<CountryResponse> GetAllCountries();
+
     }
 }

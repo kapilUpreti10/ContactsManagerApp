@@ -15,7 +15,31 @@ namespace ServiceContracts.dto
 
         public Guid Id { get; set; }
         public string? CountryName { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if (obj.GetType() != typeof(CountryResponse)) return false;
+
+            CountryResponse country = (CountryResponse)obj;
+            return this.Id == country.Id && this.CountryName == country.CountryName;
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, CountryName);
+        }
+
+        public override string ToString()
+        {
+            return $"CountryResponse {{ Id = {Id}, CountryName = {CountryName} }}";
+        }
     }
+
+
+    //overriding the Equals method to compare two CountryResponse objects based on their properties
+
+
+
 
     // since in Country class we have to write this function but in models/entities we should not write any function so we will use extension method which acts as funciton of Country class 
     // and it is made static because extension method should be in static class and it should be static method

@@ -127,12 +127,16 @@ namespace FirstTest
             //2.Act
             CountryResponse? countryResponse = _countriesService.AddCountry(request);
 
+            // now also check after adding a country if it correctly returns the all the countries
+
+            List<CountryResponse> allcountries = _countriesService.GetAllCountries();
+
 
             //3.Assert
             Assert.NotNull(countryResponse); // to check if the returned obj is not null
             Assert.Equal(request.CountryName, countryResponse.CountryName); // to check if the country name in request and response are same
             Assert.True(countryResponse.Id !=Guid.Empty); // to check if the country id is greater than 0 or not as it should be auto generated and greater than 0
-
+            Assert.Contains(countryResponse,allcountries); // to check if the added country is present in the list of all countries
 
             // so here AddCountry_ValidCountry unit test pass huna 3 wota assert conidtion pass hunu parxa euta matra fail vayo vane yo purai nai fail hunxa
         }
@@ -226,5 +230,83 @@ namespace FirstTest
         }
 
         #endregion
+
+
+
+        #region GetAllCountries
+
+        //1. the list of countries should be empty before adding any country
+
+        [Fact]
+
+
+        public void GetAllCountries_EmptyCountryList()
+        {
+            //1.Arrange
+            List<CountryResponse> response_countries = _countriesService.GetAllCountries();
+
+
+
+
+
+            //3.Assert
+            Assert.Empty(response_countries);
+        }
+
+        //2. now it should return the response countries after we add few countries
+
+        [Fact]
+
+        public void GetAllCountries_AfterAddingFewCountries()
+        {
+            //1.Arrange
+            List<AddCountryRequest> countries_to_be_added = new List<AddCountryRequest>()
+            {
+
+                new AddCountryRequest()
+                {
+                    CountryName="HongKong",
+                },
+                new AddCountryRequest()
+                {
+                    CountryName="China",
+                },
+                new AddCountryRequest()
+                {
+                    CountryName="India"
+                }
+            };
+
+            // to store a response 
+
+            List<CountryResponse> response_after_adding_a_country = new List<CountryResponse>();
+
+            foreach(AddCountryRequest dtoObj in countries_to_be_added){
+                
+
+               CountryResponse response_after_adding=     _countriesService.AddCountry(dtoObj);
+                response_after_adding_a_country.Add(response_after_adding);
+            }
+
+
+            //2.Act
+
+            List<CountryResponse> response_from_GetAllCountries    =_countriesService.GetAllCountries();
+
+
+            //3.Assert
+            foreach(CountryResponse expectedCountry in response_after_adding_a_country)
+            {
+                //note::here by default Assert.Contains uses the Equals method to compare the obje ie it checks if the reference of both the objects are same or not
+                // instead of comparing the acutal value but here we want to compare the value of the object not reference as obv reference will be different 
+
+                Assert.Contains(expectedCountry,response_from_GetAllCountries);
+            }
+        }
+
+
+        #endregion
+
     }
 }
+    
