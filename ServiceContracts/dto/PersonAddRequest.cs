@@ -1,6 +1,6 @@
 ﻿using ServiceContracts.enums;
 using Entities;
-
+using System.ComponentModel.DataAnnotations;
 namespace ServiceContracts.dto
 {
     public class PersonAddRequest
@@ -8,11 +8,18 @@ namespace ServiceContracts.dto
 
         // note:: it is not necessary that all properties of domain model should be present in the AddRequest dto and properties name can be different also 
 
+
+        [Required(ErrorMessage ="you must provide the personname")]
         public string PersonName { get; set; }
 
+
+        [Required(ErrorMessage ="you must provide the email")]
+        [EmailAddress(ErrorMessage ="Invalid email format")]
         // if value is compulsory then we can use non nullable types otherwise nullable types
         public string Email { get; set; }
 
+        [Required(ErrorMessage ="you must provide the date of birth")]
+        [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
 
         public string? Address { get; set; }
@@ -22,7 +29,7 @@ namespace ServiceContracts.dto
 
 
         // now to convert this dto into model class
-        public Person ConvertDtoToPerson()
+        public Person ConvertToPerson()
         {
             return new Person()
             {
