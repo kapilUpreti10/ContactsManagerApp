@@ -172,5 +172,134 @@ namespace FirstTest
 
         #endregion
 
+
+
+        #region GetAllPersons
+
+        //1. it should return empty list when no person is added
+        [Fact]
+
+        public void GetAllPerson_EmptyPersonsList()
+        {
+            //1. act
+
+           List<PersonResponse> personResponse=_personService.GetAllPersons();
+
+
+            //2. assert
+
+            Assert.Empty(personResponse);
+
+
+
+        }
+
+        //2. it should return all the list of person if the personlist is not empty
+
+        [Fact]
+
+        public void GetAllPersons_RetrunAllThePersons()
+        {
+
+            //1. arrange
+
+            AddCountryRequest addCountry = new AddCountryRequest() { CountryName="Nepal"};
+
+            CountryResponse countryResponse=_countriesService.AddCountry(addCountry);
+
+
+            PersonAddRequest personReqObj = new PersonAddRequest()
+            {
+                PersonName = "john doe",
+                Email = "john@example.com",
+                DateOfBirth = new DateTime(2003, 12, 20),
+                Gender = GenderType.Male,
+                Address = "thimi",
+                CountryId = countryResponse.Id,
+
+            };
+
+
+            //PersonResponse personAddResponse=_personService.AddPerson(personReqObj);
+
+
+
+            // adding another person in the list
+
+            AddCountryRequest addCountry2 = new AddCountryRequest()
+            {
+                CountryName = "HongKong"
+            };
+
+
+            CountryResponse countryResponse2 = _countriesService.AddCountry(addCountry2);
+
+
+            PersonAddRequest personReqObj2 = new PersonAddRequest()
+            {
+                PersonName = "Kiritka",
+                Address = "Thailand",
+                CountryId = countryResponse2.Id,
+                Gender = GenderType.Female,
+                Email = "Kritika@sample.com",
+                DateOfBirth = new DateTime(2003, 12, 10),
+
+
+            };
+
+            //PersonResponse personAddResponse2 = _personService.AddPerson(personReqObj2);
+
+
+            // up to now we have added two persons in the list 
+
+
+
+            //2. Act
+
+            //List<PersonResponse> get_all_persons=_personService.GetAllPersons();
+
+            //Assert.Contains(personAddResponse2, get_all_persons);
+            //Assert.Contains(personAddResponse, get_all_persons);
+
+
+
+
+            // instead of performing repetitive task live above but for lage no of test it is not suitable so we can make list of <PersonAddRequest>
+
+            List<PersonAddRequest> PersonAddRequests = new List<PersonAddRequest>()
+            {
+
+                personReqObj,personReqObj2
+            };
+
+
+            // to store the response we should make empty list
+
+
+            List<PersonResponse> personResponses = new List<PersonResponse>();
+            
+
+            // now adding this person in the list using for each loop
+
+            foreach(PersonAddRequest personAddReq in PersonAddRequests)
+            {
+                personResponses.Add(_personService.AddPerson(personAddReq));
+            }
+
+
+            // now finally assert
+
+            List<PersonResponse> get_all_persons=_personService.GetAllPersons();
+
+            foreach(PersonResponse personResponse in personResponses)
+            {
+                Assert.Contains(personResponse, get_all_persons);
+            }
+        }
+
+
+        #endregion
+
+
     }
 }
