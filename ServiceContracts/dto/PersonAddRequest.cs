@@ -24,6 +24,7 @@ namespace ServiceContracts.dto
 
         public string? Address { get; set; }
         public GenderType? Gender { get; set; }
+        public Guid? CountryId { get; set; }
 
 
 

@@ -4,6 +4,7 @@ using ServiceContracts;
 using ServiceContracts.dto;
 using Services;
 using System.Security.Cryptography.X509Certificates;
+using Xunit.Sdk;
 
 namespace FirstTest
 {
@@ -11,11 +12,12 @@ namespace FirstTest
     {
 
         private readonly IPersonService _personService;
-
+        private readonly ICountriesService _countriesService;
 
         public PersonServiceTest()
         {
             _personService = new PersonService();
+            _countriesService = new CountriesService();
         }
 
 
@@ -103,11 +105,72 @@ namespace FirstTest
             Assert.NotNull(personResult.Email);
             Assert.Contains(personResult,expectedPersons);
         }
-        
 
 
-            #endregion
 
+        #endregion
+
+
+        #region GetPersonById
+
+
+        //1. check if the id is null or not
+
+        [Fact]
+
+        public void GetPersonById_NullId()
+        {
+            //1. Arrange
+            Guid? personId = null;
+
+            //2. Act and Assert
+
+            Assert.Throws<ArgumentNullException>(() => _personService.GetPersonById(personId));
 
         }
+
+        //2. if we insert valid person id then we should get proper personresponse but to get valid personid we should add new person to the list 
+
+        [Fact]
+
+        public void GetPersonById_ValidId()
+        {
+            // since our addperson also contains teh country name for that we should supply a country for that we can use Addcountry request
+
+            AddCountryRequest? addCountryName = new AddCountryRequest()
+            {
+                CountryName = "Japan"
+            };
+
+            CountryResponse validCountryWithId=_countriesService.AddCountry(addCountryName);  // since after calling addCountry it creates a valid country id which is returned in countryresponse
+
+
+            PersonAddRequest? personRequest = new PersonAddRequest()
+            {
+                PersonName = "hello",
+                Email = "hello@example.com",
+                DateOfBirth = new DateTime(2003, 12, 20),
+                Address = "new thimi",
+                Gender = GenderType.Male,
+                CountryId = validCountryWithId.Id
+
+
+
+            };
+            //2. ACt
+
+            PersonResponse validResponsePerson = _personService.AddPerson(personRequest);
+            PersonResponse? validPersonWithId=_personService.GetPersonById(validResponsePerson?.PersonId);
+
+            //3. Assert
+            Assert.NotNull(validPersonWithId);
+            Assert.Equal(validResponsePerson, validPersonWithId); // since hamile jun person add gareko tei person we should we get when we search by id addPerson bata aayeko response validResponsePerson ho vane
+            // validPersonWithId is the response obj we get 
+            
+        }
+
+
+        #endregion
+
     }
+}

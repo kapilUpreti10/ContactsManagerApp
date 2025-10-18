@@ -118,6 +118,28 @@ namespace Services
         {
             return _persons.Select(person => person.ConvertPersonToPersonResponse()).ToList();
         }
+
+
+        #region GetPersonById
+
+        public PersonResponse GetPersonById(Guid? personId)
+        {
+            if (personId == null)
+            {
+                throw new ArgumentNullException("person id cannot be null");
+            }
+
+            //Person foundPerson=_persons.FirstOrDefault(person => person.PersonId == personId);  
+
+            // since if the id doesnt match it returns null so we should make it nullable type
+
+            Person? foundPerson = _persons.FirstOrDefault(person => person.PersonId == personId);
+
+            if (foundPerson == null) return null;
+            return foundPerson.ConvertPersonToPersonResponse();
+        }
+
+        #endregion
     }
 
 }
