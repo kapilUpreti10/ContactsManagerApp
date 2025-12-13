@@ -9,6 +9,9 @@ public  interface IPersonService
 
 
         PersonResponse? GetPersonById(Guid? PersonId);
+
+
+        List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString);
     }
 
     

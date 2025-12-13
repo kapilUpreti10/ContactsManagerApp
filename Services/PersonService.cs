@@ -140,6 +140,12 @@ namespace Services
         }
 
         #endregion
+
+
+      public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
