@@ -504,10 +504,15 @@ namespace FirstTest
 
             foreach (PersonResponse personResponse in personResponses_from_addPerson)
             {
-                if (personResponse.PersonName!.ToLower().Contains("kirtika"))
+                if (personResponse.PersonName != null)
                 {
 
-                Assert.Contains(personResponse, get_all_filtered_persons_from_search);
+
+                    if (personResponse.PersonName!.ToLower().Contains("kirtika"))
+                    {
+
+                        Assert.Contains(personResponse, get_all_filtered_persons_from_search);
+                    }
                 }
             }
         }

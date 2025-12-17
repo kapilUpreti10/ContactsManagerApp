@@ -142,10 +142,38 @@ namespace Services
         #endregion
 
 
-      public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
-        {
-            throw new NotImplementedException();
-        }
-    }
+     
 
+
+          public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
+        {
+            List<PersonResponse> allPersons = GetAllPersons();
+
+            // If no search string, return all
+            if (string.IsNullOrWhiteSpace(searchString))
+                return allPersons;
+
+            // Get property info dynamically
+            var propertyInfo = typeof(PersonResponse).GetProperty(searchBy);
+
+            // If property doesn't exist, return all (or throw exception if you want)
+            if (propertyInfo == null)
+                return allPersons;
+
+            // Filter dynamically
+            List<PersonResponse> filteredPersons = allPersons
+                .Where(person =>
+                {
+                    var value = propertyInfo.GetValue(person);
+                    return value != null &&
+                           value.ToString()!.Contains(searchString, StringComparison.OrdinalIgnoreCase);
+                })
+                .ToList();
+
+            return filteredPersons;
+        }
+
+    }
 }
+
+
