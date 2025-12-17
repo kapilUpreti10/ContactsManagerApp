@@ -305,6 +305,212 @@ namespace FirstTest
         #region GetFilteredPersons
 
 
+     
+
+        //2. it should return all the list of person if the searchllist is empty
+
+        [Fact]
+
+        public void ReturnAllPerson_SearchListEmpty()
+        {
+
+            //1. arrange
+
+            AddCountryRequest addCountry = new AddCountryRequest() { CountryName = "Nepal" };
+
+            CountryResponse countryResponse = _countriesService.AddCountry(addCountry);
+
+
+            PersonAddRequest personReqObj = new PersonAddRequest()
+            {
+                PersonName = "john doe",
+                Email = "john@example.com",
+                DateOfBirth = new DateTime(2003, 12, 20),
+                Gender = GenderType.Male,
+                Address = "thimi",
+                CountryId = countryResponse.Id,
+
+            };
+
+
+            //PersonResponse personAddResponse=_personService.AddPerson(personReqObj);
+
+
+
+            // adding another person in the list
+
+            AddCountryRequest addCountry2 = new AddCountryRequest()
+            {
+                CountryName = "HongKong"
+            };
+
+
+            CountryResponse countryResponse2 = _countriesService.AddCountry(addCountry2);
+
+
+            PersonAddRequest personReqObj2 = new PersonAddRequest()
+            {
+                PersonName = "Kiritka",
+                Address = "Thailand",
+                CountryId = countryResponse2.Id,
+                Gender = GenderType.Female,
+                Email = "Kritika@sample.com",
+                DateOfBirth = new DateTime(2003, 12, 10),
+
+
+            };
+
+            //PersonResponse personAddResponse2 = _personService.AddPerson(personReqObj2);
+
+
+            // up to now we have added two persons in the list 
+
+
+
+            //2. Act
+
+            //List<PersonResponse> get_all_persons=_personService.GetAllPersons();
+
+            //Assert.Contains(personAddResponse2, get_all_persons);
+            //Assert.Contains(personAddResponse, get_all_persons);
+
+
+
+
+            // instead of performing repetitive task live above but for lage no of test it is not suitable so we can make list of <PersonAddRequest>
+
+            List<PersonAddRequest> PersonAddRequests = new List<PersonAddRequest>()
+            {
+
+                personReqObj,personReqObj2
+            };
+
+
+            // to store the response we should make empty list
+
+
+            List<PersonResponse> personResponses_from_addPerson = new List<PersonResponse>();
+
+
+            // now adding this person in the list using for each loop
+
+            foreach (PersonAddRequest personAddReq in PersonAddRequests)
+            {
+                personResponses_from_addPerson.Add(_personService.AddPerson(personAddReq));
+            }
+
+
+            // now finally assert
+
+            List<PersonResponse> get_all_filtered_persons_from_search = _personService.GetFilteredPersons(nameof(Person.PersonName),"");
+
+            foreach (PersonResponse personResponse in personResponses_from_addPerson)
+            {
+                Assert.Contains(personResponse, get_all_filtered_persons_from_search);
+            }
+        }
+
+
+
+
+
+
+
+
+        //2. testcase :: here it should return filtered list of person based on searchby and searchstring
+
+
+        //2. it should return all the list of person if the searchllist is empty
+
+        [Fact]
+
+        public void ReturnAllPerson_SearchIsNotEmpty()
+        {
+
+            //1. arrange
+
+            AddCountryRequest addCountry = new AddCountryRequest() { CountryName = "Nepal" };
+
+            CountryResponse countryResponse = _countriesService.AddCountry(addCountry);
+
+
+            PersonAddRequest personReqObj = new PersonAddRequest()
+            {
+                PersonName = "john doe",
+                Email = "john@example.com",
+                DateOfBirth = new DateTime(2003, 12, 20),
+                Gender = GenderType.Male,
+                Address = "thimi",
+                CountryId = countryResponse.Id,
+
+            };
+
+
+            //PersonResponse personAddResponse=_personService.AddPerson(personReqObj);
+
+
+
+            // adding another person in the list
+
+            AddCountryRequest addCountry2 = new AddCountryRequest()
+            {
+                CountryName = "HongKong"
+            };
+
+
+            CountryResponse countryResponse2 = _countriesService.AddCountry(addCountry2);
+
+
+            PersonAddRequest personReqObj2 = new PersonAddRequest()
+            {
+                PersonName = "Kiritka",
+                Address = "Thailand",
+                CountryId = countryResponse2.Id,
+                Gender = GenderType.Female,
+                Email = "Kritika@sample.com",
+                DateOfBirth = new DateTime(2003, 12, 10),
+
+
+            };
+
+           
+
+            // instead of performing repetitive task live above but for lage no of test it is not suitable so we can make list of <PersonAddRequest>
+
+            List<PersonAddRequest> PersonAddRequests = new List<PersonAddRequest>()
+            {
+
+                personReqObj,personReqObj2
+            };
+
+
+            // to store the response we should make empty list
+
+
+            List<PersonResponse> personResponses_from_addPerson = new List<PersonResponse>();
+
+
+            // now adding this person in the list using for each loop
+
+            foreach (PersonAddRequest personAddReq in PersonAddRequests)
+            {
+                personResponses_from_addPerson.Add(_personService.AddPerson(personAddReq));
+            }
+
+
+            // now finally assert
+
+            List<PersonResponse> get_all_filtered_persons_from_search = _personService.GetFilteredPersons(nameof(Person.PersonName),"kirtika");
+
+            foreach (PersonResponse personResponse in personResponses_from_addPerson)
+            {
+                if (personResponse.PersonName!.ToLower().Contains("kirtika"))
+                {
+
+                Assert.Contains(personResponse, get_all_filtered_persons_from_search);
+                }
+            }
+        }
 
         #endregion
 
