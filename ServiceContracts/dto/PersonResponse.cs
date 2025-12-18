@@ -1,4 +1,4 @@
-﻿
+﻿using ServiceContracts.enums;
 using Entities;
 using System.Runtime.CompilerServices;
 namespace ServiceContracts.dto
@@ -49,6 +49,20 @@ namespace ServiceContracts.dto
             return base.GetHashCode();
         }
 
+
+        public PersonUpdateRequest ConvertToPersonUpdateRequest()
+        {
+            return new PersonUpdateRequest()
+            {
+                PersonId = this.PersonId,
+                PersonName = this.PersonName,
+                Address = this.Address,
+                CountryId = this.CountryId,
+                DateOfBirth = this.DateOfBirth.HasValue ? this.DateOfBirth.Value : DateTime.MinValue,
+                Email = this.Email,
+                Gender = (GenderType)Enum.Parse(typeof(GenderType), this.Gender)
+            };
+        }
        
     }
 
@@ -74,5 +88,6 @@ namespace ServiceContracts.dto
                 // note math.Round returns double type not and int
             };
         }
+
     }
 }

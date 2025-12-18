@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 
 namespace FirstTest
 {
-    public  class PersonServiceTest
+    public class PersonServiceTest
     {
 
         private readonly IPersonService _personService;
@@ -34,7 +34,7 @@ namespace FirstTest
 
             //2. Act & Assert
 
-            Assert.Throws<ArgumentNullException>(() => _personService.AddPerson(personAddRequest)); 
+            Assert.Throws<ArgumentNullException>(() => _personService.AddPerson(personAddRequest));
         }
 
 
@@ -80,7 +80,7 @@ namespace FirstTest
         //4. when valid PersonAddRequest is passed then it should return PersonResponse with same details
 
         [Fact]
-            public void AddPerson_ValidPersonDetails()
+        public void AddPerson_ValidPersonDetails()
         {
             PersonAddRequest? validPersonDetails = new PersonAddRequest()
             {
@@ -96,15 +96,15 @@ namespace FirstTest
 
             //2.Act
 
-            PersonResponse personResult=_personService.AddPerson(validPersonDetails);
+            PersonResponse personResult = _personService.AddPerson(validPersonDetails);
 
             List<PersonResponse> expectedPersons = _personService.GetAllPersons();
             //3.Assert
-           
+
             Assert.True(personResult.PersonId != Guid.Empty);
             Assert.NotNull(personResult.PersonName);
             Assert.NotNull(personResult.Email);
-            Assert.Contains(personResult,expectedPersons);
+            Assert.Contains(personResult, expectedPersons);
         }
 
 
@@ -143,7 +143,7 @@ namespace FirstTest
                 CountryName = "Japan"
             };
 
-            CountryResponse validCountryWithId=_countriesService.AddCountry(addCountryName);  // since after calling addCountry it creates a valid country id which is returned in countryresponse
+            CountryResponse validCountryWithId = _countriesService.AddCountry(addCountryName);  // since after calling addCountry it creates a valid country id which is returned in countryresponse
 
 
             PersonAddRequest? personRequest = new PersonAddRequest()
@@ -161,13 +161,13 @@ namespace FirstTest
             //2. ACt
 
             PersonResponse validResponsePerson = _personService.AddPerson(personRequest);
-            PersonResponse? validPersonWithId=_personService.GetPersonById(validResponsePerson?.PersonId);
+            PersonResponse? validPersonWithId = _personService.GetPersonById(validResponsePerson?.PersonId);
 
             //3. Assert
             Assert.NotNull(validPersonWithId);
             Assert.Equal(validResponsePerson, validPersonWithId); // since hamile jun person add gareko tei person we should we get when we search by id addPerson bata aayeko response validResponsePerson ho vane
-            // validPersonWithId is the response obj we get 
-            
+                                                                  // validPersonWithId is the response obj we get 
+
         }
 
 
@@ -184,7 +184,7 @@ namespace FirstTest
         {
             //1. act
 
-           List<PersonResponse> personResponse=_personService.GetAllPersons();
+            List<PersonResponse> personResponse = _personService.GetAllPersons();
 
 
             //2. assert
@@ -204,9 +204,9 @@ namespace FirstTest
 
             //1. arrange
 
-            AddCountryRequest addCountry = new AddCountryRequest() { CountryName="Nepal"};
+            AddCountryRequest addCountry = new AddCountryRequest() { CountryName = "Nepal" };
 
-            CountryResponse countryResponse=_countriesService.AddCountry(addCountry);
+            CountryResponse countryResponse = _countriesService.AddCountry(addCountry);
 
 
             PersonAddRequest personReqObj = new PersonAddRequest()
@@ -278,11 +278,11 @@ namespace FirstTest
 
 
             List<PersonResponse> personResponses = new List<PersonResponse>();
-            
+
 
             // now adding this person in the list using for each loop
 
-            foreach(PersonAddRequest personAddReq in PersonAddRequests)
+            foreach (PersonAddRequest personAddReq in PersonAddRequests)
             {
                 personResponses.Add(_personService.AddPerson(personAddReq));
             }
@@ -290,9 +290,9 @@ namespace FirstTest
 
             // now finally assert
 
-            List<PersonResponse> get_all_persons=_personService.GetAllPersons();
+            List<PersonResponse> get_all_persons = _personService.GetAllPersons();
 
-            foreach(PersonResponse personResponse in personResponses)
+            foreach (PersonResponse personResponse in personResponses)
             {
                 Assert.Contains(personResponse, get_all_persons);
             }
@@ -306,7 +306,7 @@ namespace FirstTest
         #region GetFilteredPersons
 
 
-     
+
 
         //2. it should return all the list of person if the searchllist is empty
 
@@ -403,7 +403,7 @@ namespace FirstTest
 
             // now finally assert
 
-            List<PersonResponse> get_all_filtered_persons_from_search = _personService.GetFilteredPersons(nameof(Person.PersonName),"");
+            List<PersonResponse> get_all_filtered_persons_from_search = _personService.GetFilteredPersons(nameof(Person.PersonName), "");
 
             foreach (PersonResponse personResponse in personResponses_from_addPerson)
             {
@@ -474,7 +474,7 @@ namespace FirstTest
 
             };
 
-           
+
 
             // instead of performing repetitive task live above but for lage no of test it is not suitable so we can make list of <PersonAddRequest>
 
@@ -501,7 +501,7 @@ namespace FirstTest
 
             // now finally assert
 
-            List<PersonResponse> get_all_filtered_persons_from_search = _personService.GetFilteredPersons(nameof(Person.PersonName),"kirtika");
+            List<PersonResponse> get_all_filtered_persons_from_search = _personService.GetFilteredPersons(nameof(Person.PersonName), "kirtika");
 
             foreach (PersonResponse personResponse in personResponses_from_addPerson)
             {
@@ -541,7 +541,7 @@ namespace FirstTest
             List<PersonResponse> actualResponse = _personService.GetSortedPersons(filteredPersons, sortByInput, SortOrderOption.descending);
             // Assert
 
-            Assert.Equal(filteredPersons,actualResponse);
+            Assert.Equal(filteredPersons, actualResponse);
         }
 
 
@@ -551,7 +551,7 @@ namespace FirstTest
         [Fact]
 
 
-            public void GetSortedPersons_DescendingOrder()
+        public void GetSortedPersons_DescendingOrder()
         {
 
             //1. arrange
@@ -643,6 +643,8 @@ namespace FirstTest
                     CountryId=countryResponses[0].Id,
                     Gender=GenderType.Others,
                     DateOfBirth=new DateTime(2022,3,3)
+
+
                 },
 
 
@@ -651,8 +653,8 @@ namespace FirstTest
 
 
             List<PersonResponse> personResponses_from_addPerson = new List<PersonResponse>();
-            
-                foreach (var personAddReq in personAddRequests)
+
+            foreach (var personAddReq in personAddRequests)
             {
                 personResponses_from_addPerson.Add(_personService.AddPerson(personAddReq));
             }
@@ -671,12 +673,12 @@ namespace FirstTest
 
             List<PersonResponse> personResponses_from_AddPerson_Desc = personResponses_from_addPerson.OrderByDescending(person => person.PersonName).ToList();
 
-             //2. Act 
+            //2. Act 
 
             //actual value 
-             List <PersonResponse> sortedPersonList_in_DescendingOrder=_personService.GetSortedPersons(allPersons,nameof(Person.PersonName), SortOrderOption.descending);
+            List<PersonResponse> sortedPersonList_in_DescendingOrder = _personService.GetSortedPersons(allPersons, nameof(Person.PersonName), SortOrderOption.descending);
 
-            
+
 
 
 
@@ -686,17 +688,166 @@ namespace FirstTest
             for (int i = 0; i < personResponses_from_addPerson.Count; i++)
             {
 
-            Assert.Equal(personResponses_from_AddPerson_Desc[i ], sortedPersonList_in_DescendingOrder[i]);
+                Assert.Equal(personResponses_from_AddPerson_Desc[i], sortedPersonList_in_DescendingOrder[i]);
 
             }
+        }
+        #endregion
 
 
+        #region UpdatePersonDetails
+
+
+        //1. it should throw argument nulll exception if the personUpdateRequest is null
+
+        [Fact]
+
+        public void PersonUpdateRequest_Null()
+        {
+
+
+        //1. Arrange 
+        PersonUpdateRequest? personUpdateRequest = null;
+
+
+            Assert.Throws<ArgumentNullException>(() =>
+            _personService.UpdatePersonDetails(personUpdateRequest)); 
         }
 
 
+        //2. it should throw argument exception if the personid is invalid 
 
-        #endregion
+        [Fact]
+
+
+        public void PersonUpdateRequest_InvalidPersonId()
+        {
+
+            // at firsst we should also add some persons to the list so that we can get fill that we are comparing with invalid id 
+            // huna tw person add nagare ni farak tw pardaina
+
+            AddCountryRequest addCountry = new AddCountryRequest()
+            {
+                CountryName = "Duoling"
+            };
+            CountryResponse countryResponse = _countriesService.AddCountry(addCountry);
+            PersonAddRequest personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "hello world",
+                Address = "somewhere",
+                CountryId = countryResponse.Id,
+                DateOfBirth = new DateTime(2000, 1, 1),
+                Email = "sample@example.com",
+            };
+
+            PersonResponse personResponse = _personService.AddPerson(personAddRequest);
+
+
+            // now creating personupdaterequest with invalid personid
+            //1. Arrange 
+            PersonUpdateRequest? personUpdateRequest = new PersonUpdateRequest()
+            {
+                PersonId = Guid.NewGuid(),  // since this id is not present in the list it is invalid
+                PersonName = "Updated Name",
+            };
+
+            //2. act & assert
+
+
+            Assert.Throws<ArgumentException>(() =>
+            _personService.UpdatePersonDetails(personUpdateRequest)
+
+            );
+
+        }
+        //3. if the person id is valid then it should update the person details and return updated personresponse
+
+
+        [Fact]
+
+        public void PersonUpdateRequest_ValidPersonId()
+        {
+
+            //1. Arrange 
+
+            AddCountryRequest addCountry = new AddCountryRequest()
+            {
+                CountryName = "Duoling"
+            };
+
+            CountryResponse countryResponse = _countriesService.AddCountry(addCountry);
+
+
+            List<PersonAddRequest> personAddRequests = new List<PersonAddRequest>()
+            {
+                new PersonAddRequest()
+                {
+                    PersonName = "hello world",
+                    Address = "somewhere",
+                    CountryId = countryResponse.Id,
+                    DateOfBirth = new DateTime(2000, 1, 1),
+                    Email = "hello@example.com",
+                    Gender = GenderType.Others,
+
+
+                },
+
+                new PersonAddRequest()
+                {
+                    PersonName = "hello john",
+                    Address = "somewhere",
+                    CountryId = countryResponse.Id,
+                    DateOfBirth = new DateTime(1999, 5, 5),
+                    Email = "johndoe@sample.com",
+                    Gender = GenderType.Male,
+                }
+
+            };
+
+            List<PersonResponse> _personResponses = new List<PersonResponse>();
+
+            foreach (var personAddReq in personAddRequests)
+            {
+                _personResponses.Add(_personService.AddPerson(personAddReq));
+            }
+
+
+            // let us take one sample personId from the above added persons
+
+            Guid validPersonId = _personResponses[0].PersonId;
+
+            PersonUpdateRequest? personUpdateRequest = new PersonUpdateRequest()
+            {
+                PersonId = validPersonId,
+                PersonName = "Updated Name",
+                Address = "Updated Address",
+                CountryId = countryResponse.Id,
+                DateOfBirth = new DateTime(1995, 12, 12),
+                Email = "update@email.com",
+                Gender = GenderType.Female,
+
+            };
+
+          
+
+            //Act
+
+            PersonResponse updatedPersonResponse = _personService.UpdatePersonDetails(personUpdateRequest);
+
+            // expected value 
+
+            PersonResponse expectedPersonResponse_from_get = _personService.GetPersonById(validPersonId);
+
+
+            //3. Assert
+
+            Assert.Equal(expectedPersonResponse_from_get, updatedPersonResponse);
+
+
+        }
+                #endregion
 
 
     }
 }
+  

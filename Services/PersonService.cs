@@ -120,6 +120,7 @@ namespace Services
         }
         #endregion
 
+
         #region GetAllPersons
 
         public List<PersonResponse> GetAllPersons()
@@ -149,7 +150,6 @@ namespace Services
         }
 
         #endregion
-
 
 
 
@@ -186,7 +186,6 @@ namespace Services
 
 
         #endregion
-
 
 
         #region GetSortedPersons
@@ -245,6 +244,49 @@ namespace Services
         }
 
 
+        #endregion
+
+
+        #region UpdatePersonDetails
+
+        public PersonResponse UpdatePersonDetails(PersonUpdateRequest? personUpdateReqObj)
+        {
+
+            //1. check if the personUpdateReqObj is null or not
+
+            if (personUpdateReqObj == null)
+            {
+              throw new ArgumentNullException(nameof(personUpdateReqObj));
+            }
+
+            //2. check if the personId is valid or not
+
+            if(personUpdateReqObj.PersonId ==Guid.Empty || !_persons.Any(person => person.PersonId == personUpdateReqObj.PersonId))
+            {
+                throw new ArgumentException("Invalid PersonId");
+            }
+
+
+            //3. if everything is valid then update the person details 
+
+            foreach (Person person in _persons)
+            {
+                if (person.PersonId == personUpdateReqObj.PersonId)
+                {
+                    person.PersonName = personUpdateReqObj.PersonName;
+                    person.Address = personUpdateReqObj.Address;
+                    person.CountryId = personUpdateReqObj.CountryId;
+                    person.DateOfBirth = personUpdateReqObj.DateOfBirth;
+                    person.Email = personUpdateReqObj.Email;
+                    person.Gender = personUpdateReqObj.Gender.ToString();
+                }
+            }
+            // return the update person as personresponse dto 
+             Person updatedPerson=_persons.First(person=>person.PersonId== personUpdateReqObj.PersonId);
+
+                return updatedPerson.ConvertPersonToPersonResponse();
+
+            }
         #endregion
     }
 }

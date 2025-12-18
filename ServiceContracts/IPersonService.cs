@@ -16,6 +16,9 @@ public  interface IPersonService
 
 
         List<PersonResponse> GetSortedPersons(List<PersonResponse> filteredPersons,string? sortBy, SortOrderOption sortOrder);
+
+
+        PersonResponse UpdatePersonDetails(PersonUpdateRequest? personUpdateReqObj);
     }
 
     
