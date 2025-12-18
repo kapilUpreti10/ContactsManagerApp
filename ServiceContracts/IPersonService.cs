@@ -19,6 +19,9 @@ public  interface IPersonService
 
 
         PersonResponse UpdatePersonDetails(PersonUpdateRequest? personUpdateReqObj);
+
+
+        PersonResponse DeletePersonById(Guid? personId);
     }
 
     

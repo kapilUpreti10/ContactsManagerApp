@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using Xunit.Sdk;
 using System.Net.Http.Headers;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
 
 namespace FirstTest
 {
@@ -779,7 +780,7 @@ namespace FirstTest
             {
                 PersonId = Guid.NewGuid(),  // since this id is not present in the list it is invalid
                 PersonName = "Updated Name",
-                Email = "invalidemail@email.com" // invalid email format
+                Email = "invalidemail" // invalid email format
             };
 
             // context is req by validator to check what obj and properties to validate
@@ -797,7 +798,9 @@ namespace FirstTest
 
             // instead of trying to validatate object manually we will use validationhelper class
 
-            var excpetion =Assert.Throws<ArgumentException>(() =>
+            // here we are expecting argument exception to throw since email format is invalid but
+            // if we keep valid email it doesnt throw any exception but we are expecting to throw expception so our test case will fail
+           Assert.Throws<ArgumentException>(() =>
           ValidationHelper.ValidateModelProperties(personUpdateRequest)
             );
 
@@ -905,7 +908,142 @@ namespace FirstTest
 
 
         }
-                #endregion
+        #endregion
+
+
+        #region DeletePersonById
+
+        //1. it should throw argument nul exception if the personid is null
+
+        [Fact]
+
+        public void DeletePersonById_NullPersonId()
+        {
+            //1. Arrange 
+
+            Guid? personId = null;
+
+            //2. Act& Assert
+
+            Assert.Throws<ArgumentNullException>(() =>
+
+              _personService.DeletePersonById(personId)
+            );
+
+        }
+
+
+            //2. it should throw argument exception if the personid is invalid
+
+            [Fact]
+
+
+            public void DeletePersonById_InvalidPersonId()
+            {
+
+            //1. Arrange
+
+            Guid invalidPersonId = new Guid(); // since this id is not present in the list it is invalid
+
+            //2. Act and assert
+
+            Assert.Throws<ArgumentException>(() =>
+            _personService.DeletePersonById(invalidPersonId)
+            );
+            }
+
+
+        //3 . it should dellete the person from the list(which is db here ) if the vlaid personId is supplied
+
+        [Fact]
+
+        public void DeletePersonById_ValidPersonId()
+        {
+
+            //1. Arrange 
+
+            // at first adding the person in the lsit 
+
+            List<AddCountryRequest> addCountryRequests = new List<AddCountryRequest>()
+            {
+
+           new AddCountryRequest()
+              {
+                CountryName="deletethisCountry"
+              },
+           new AddCountryRequest()
+              {
+               CountryName="hongkong"
+              }
+
+           };
+
+
+            // adding person in the list 
+
+            List<CountryResponse> countryResponses = new List<CountryResponse>();
+            
+
+             foreach(AddCountryRequest addCountry in addCountryRequests)
+            {
+                countryResponses.Add(_countriesService.AddCountry(addCountry));
+            }
+
+
+            // creating person addrequest list
+
+            List<PersonAddRequest> addPersonsRequests = new List<PersonAddRequest>()
+             {
+                 new PersonAddRequest()
+                 {
+                    PersonName="delete this person",
+                    Address="somewhere",
+                    CountryId=countryResponses[0].Id,
+                    DateOfBirth=new DateTime(2001,1,1),
+                    Email="sample@email.com",
+                    Gender=GenderType.Male,
+
+
+                 },
+                 new PersonAddRequest()
+                 {
+                    PersonName="keep this person",
+                    Address="somewhere else",
+                    CountryId=countryResponses[1].Id,
+                    DateOfBirth=new DateTime(1995,5,5),
+                    Email="keep@email.com"
+                 }
+             };
+
+
+            List<PersonResponse> personResponses = new List<PersonResponse>();
+
+            foreach(var personAddReqObj in addPersonsRequests)
+            {
+                personResponses.Add(_personService.AddPerson(personAddReqObj));
+            }
+
+            Guid validPersonId = personResponses[0].PersonId; // this is the personid we will delete
+
+
+            //2. act
+
+             PersonResponse deletedPersonResult=_personService.DeletePersonById(validPersonId);
+
+            // getting all the list of persons after deletion
+            List<PersonResponse> allPersons = _personService.GetAllPersons();
+
+            //3 assert
+
+            // it uses equals internally 
+
+            Assert.DoesNotContain(deletedPersonResult,allPersons);
+            
+
+        }
+        
+
+        #endregion
 
 
     }

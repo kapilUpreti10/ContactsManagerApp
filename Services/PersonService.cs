@@ -312,6 +312,40 @@ namespace Services
 
             }
         #endregion
+
+
+        #region DeletePersonById
+
+        public PersonResponse DeletePersonById(Guid? personId)
+        {
+
+            //1. check if the person id null or not 
+
+            if (personId == null)
+            {
+                throw new ArgumentNullException("id is null.. give the personid");
+            }
+
+            //2. check if the personid is valid or not
+
+            if(personId==Guid.Empty || !_persons.Any(person => person.PersonId == personId))
+            {
+                throw new ArgumentException("invalid person id");
+            }
+
+            //3. if everything is valid then delete the person from the list 
+
+            Person matchedPerson = _persons.First(person => person.PersonId == personId);
+
+            //_persons.RemoveAll(person=>person.PersonId==matchedPerson.PersonId);
+
+            _persons.Remove(matchedPerson);
+
+            return matchedPerson.ConvertPersonToPersonResponse();
+
+        }
+
+        #endregion
     }
 }
 
