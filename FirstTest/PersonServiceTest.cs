@@ -534,11 +534,14 @@ namespace FirstTest
 
             List<PersonResponse> filteredPersons = _personService.GetAllPersons();
 
-            string? sortBy = null;
+            string? sortByInput = null;
 
-            //2. Act & Assert
+            //2. Act
+            //
+            List<PersonResponse> actualResponse = _personService.GetSortedPersons(filteredPersons, sortByInput, SortOrderOption.descending);
+            // Assert
 
-            Assert.Throws<ArgumentNullException>(() => _personService.GetSortedPersons(filteredPersons, sortBy, SortOrderOption.ascending));
+            Assert.Equal(filteredPersons,actualResponse);
         }
 
 
@@ -548,7 +551,7 @@ namespace FirstTest
         [Fact]
 
 
-        public void GetSortedPersons_DescendingOrder()
+            public void GetSortedPersons_DescendingOrder()
         {
 
             //1. arrange
@@ -602,7 +605,7 @@ namespace FirstTest
                     Address="Nairobi",
                     CountryId=countryResponses[0].Id,
                     Gender=GenderType.Male,
-                    DateOfBirth=new DateTime(2022,23,3)
+                    DateOfBirth=new DateTime(2022,3,3)
                 },
 
                    new PersonAddRequest()
@@ -612,7 +615,7 @@ namespace FirstTest
                     Address="Nairobi",
                     CountryId=countryResponses[1].Id,
                     Gender=GenderType.Male,
-                    DateOfBirth=new DateTime(2022,23,3)
+                    DateOfBirth=new DateTime(2022,3,3)
                 },
                 new PersonAddRequest()
                 {
@@ -621,7 +624,7 @@ namespace FirstTest
                     Address="Nairobi",
                     CountryId=countryResponses[2].Id,
                     Gender=GenderType.Male,
-                    DateOfBirth=new DateTime(2022,23,3)
+                    DateOfBirth=new DateTime(2022,3,3)
                 },
                  new PersonAddRequest()
                 {
@@ -630,7 +633,7 @@ namespace FirstTest
                     Address="Rwanda city",
                     CountryId=countryResponses[0].Id,
                     Gender=GenderType.Female,
-                    DateOfBirth=new DateTime(2022,23,3)
+                    DateOfBirth=new DateTime(2022,3,3)
                 },
                 new PersonAddRequest()
                 {
@@ -639,7 +642,7 @@ namespace FirstTest
                     Address="Nairobi",
                     CountryId=countryResponses[0].Id,
                     Gender=GenderType.Others,
-                    DateOfBirth=new DateTime(2022,23,3)
+                    DateOfBirth=new DateTime(2022,3,3)
                 },
 
 
@@ -660,9 +663,20 @@ namespace FirstTest
             // now since we have responses after adding persons to the db 
 
 
-            //2. Act 
 
-            List<PersonResponse> sortedPersonList_in_DescendingOrder=_personService.GetSortedPersons(allPersons,nameof(Person.PersonName), SortOrderOption.descending);
+
+
+            // now we must sort the person list from add in descending order to compare with the actual sorted list we get from the services
+            // expected value 
+
+            List<PersonResponse> personResponses_from_AddPerson_Desc = personResponses_from_addPerson.OrderByDescending(person => person.PersonName).ToList();
+
+             //2. Act 
+
+            //actual value 
+             List <PersonResponse> sortedPersonList_in_DescendingOrder=_personService.GetSortedPersons(allPersons,nameof(Person.PersonName), SortOrderOption.descending);
+
+            
 
 
 
@@ -672,7 +686,7 @@ namespace FirstTest
             for (int i = 0; i < personResponses_from_addPerson.Count; i++)
             {
 
-            Assert.Equal(personResponses_from_addPerson[i ], sortedPersonList_in_DescendingOrder[i]);
+            Assert.Equal(personResponses_from_AddPerson_Desc[i ], sortedPersonList_in_DescendingOrder[i]);
 
             }
 

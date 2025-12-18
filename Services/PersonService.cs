@@ -193,7 +193,55 @@ namespace Services
 
         public List<PersonResponse> GetSortedPersons(List<PersonResponse> filteredPersons, string? sortBy, SortOrderOption sortOrder)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(sortBy)) return filteredPersons;
+
+
+
+            List<PersonResponse> sortedPersons = (sortBy, sortOrder)
+                switch
+            {
+                (nameof(PersonResponse.PersonName), SortOrderOption.ascending) =>
+                    filteredPersons.OrderBy(person => person.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.PersonName), SortOrderOption.descending) =>
+                    filteredPersons.OrderByDescending(person => person.PersonName, StringComparer.OrdinalIgnoreCase).ToList(), // here we are converting the Ienumerable<T> to list  as
+                                                                                                                               // ordeby returns ienumerable<T>
+
+                (nameof(PersonResponse.Email), SortOrderOption.ascending) =>
+                   filteredPersons.OrderBy(person => person.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.Email), SortOrderOption.descending) =>
+                    filteredPersons.OrderByDescending(person => person.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponse.DateOfBirth), SortOrderOption.ascending) =>
+                    filteredPersons.OrderBy(person => person.DateOfBirth).ToList(),
+
+
+                (nameof(PersonResponse.DateOfBirth), SortOrderOption.descending) =>
+                    filteredPersons.OrderByDescending(person => person.DateOfBirth).ToList(),
+
+
+                (nameof(PersonResponse.Age), SortOrderOption.ascending) =>
+                    filteredPersons.OrderBy(person => person.Age).ToList(),
+
+                (nameof(PersonResponse.Age), SortOrderOption.descending) =>
+                    filteredPersons.OrderByDescending(person => person.Age).ToList(),
+
+
+                (nameof(PersonResponse.RecieveNewsLetters), SortOrderOption.ascending) =>
+                    filteredPersons.OrderBy(person => person.RecieveNewsLetters).ToList(),
+
+                (nameof(PersonResponse.RecieveNewsLetters), SortOrderOption.descending) =>
+                    filteredPersons.OrderByDescending(person => person.RecieveNewsLetters).ToList(),
+
+                _ => filteredPersons       // default case if no match found which is represented by _(underscore symbol)
+
+
+
+
+            };
+
+            return sortedPersons;
         }
 
 
