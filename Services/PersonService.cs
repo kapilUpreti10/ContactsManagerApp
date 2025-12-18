@@ -279,22 +279,36 @@ namespace Services
 
             //3. if everything is valid then update the person details 
 
-            foreach (Person person in _persons)
-            {
-                if (person.PersonId == personUpdateReqObj.PersonId)
-                {
-                    person.PersonName = personUpdateReqObj.PersonName;
-                    person.Address = personUpdateReqObj.Address;
-                    person.CountryId = personUpdateReqObj.CountryId;
-                    person.DateOfBirth = personUpdateReqObj.DateOfBirth;
-                    person.Email = personUpdateReqObj.Email;
-                    person.Gender = personUpdateReqObj.Gender.ToString();
-                }
-            }
-            // return the update person as personresponse dto 
-             Person updatedPerson=_persons.First(person=>person.PersonId== personUpdateReqObj.PersonId);
+            //foreach (Person person in _persons)
+            //{
+            //    if (person.PersonId == personUpdateReqObj.PersonId)
+            //    {
+            //        person.PersonName = personUpdateReqObj.PersonName;
+            //        person.Address = personUpdateReqObj.Address;
+            //        person.CountryId = personUpdateReqObj.CountryId;
+            //        person.DateOfBirth = personUpdateReqObj.DateOfBirth;
+            //        person.Email = personUpdateReqObj.Email;
+            //        person.Gender = personUpdateReqObj.Gender.ToString();
+            //    }
+            //}
+            //// return the update person as personresponse dto 
+            // Person updatedPerson=_persons.First(person=>person.PersonId== personUpdateReqObj.PersonId)
+            //;
 
-                return updatedPerson.ConvertPersonToPersonResponse();
+
+            // another method 
+
+            // since Person is class which is of reference type so personToBeUpdated will have the actual reference fo the object in the _person list 
+            Person personToBeUpdated = _persons.First(person => person.PersonId == personUpdateReqObj.PersonId);
+
+            personToBeUpdated.PersonName = personUpdateReqObj.PersonName != null ? personUpdateReqObj.PersonName : personToBeUpdated.PersonName;
+            personToBeUpdated.Address = personUpdateReqObj.Address != null ? personUpdateReqObj.Address : personToBeUpdated.Address;
+            personToBeUpdated.CountryId = personUpdateReqObj.CountryId != null ? personUpdateReqObj.CountryId : personToBeUpdated.CountryId;
+            personToBeUpdated.DateOfBirth = personUpdateReqObj.DateOfBirth != null ? personUpdateReqObj.DateOfBirth : personToBeUpdated.DateOfBirth;
+            personToBeUpdated.Email = personUpdateReqObj.Email != null ? personUpdateReqObj.Email : personToBeUpdated.Email;
+
+
+            return personToBeUpdated.ConvertPersonToPersonResponse();
 
             }
         #endregion

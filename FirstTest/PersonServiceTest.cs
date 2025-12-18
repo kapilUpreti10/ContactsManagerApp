@@ -3,6 +3,7 @@ using Entities;
 using ServiceContracts;
 using ServiceContracts.dto;
 using Services;
+using Services.Helpers;
 using System.Security.Cryptography.X509Certificates;
 using Xunit.Sdk;
 using System.Net.Http.Headers;
@@ -778,22 +779,38 @@ namespace FirstTest
             {
                 PersonId = Guid.NewGuid(),  // since this id is not present in the list it is invalid
                 PersonName = "Updated Name",
-                Email = "invalidemail" // invalid email format
+                Email = "invalidemail@email.com" // invalid email format
             };
 
             // context is req by validator to check what obj and properties to validate
-            var context = new ValidationContext(personUpdateRequest);
+            //var context = new ValidationContext(personUpdateRequest);
 
             // to store the validation results
-            var results = new List<ValidationResult>();
+            //var results = new List<ValidationResult>();
 
 
             // this validates not only to email but all the properties of the dto object where the validators are applied ie email,personId,dob,etc
-            bool isValid = Validator.TryValidateObject(personUpdateRequest, context, results, true);
+            //bool isValid = Validator.TryValidateObject(personUpdateRequest, context, results, true);
 
 
 
-            Assert.False(isValid);     // this means there is validation error but we dont know in which property 
+
+            // instead of trying to validatate object manually we will use validationhelper class
+
+            var excpetion =Assert.Throws<ArgumentException>(() =>
+          ValidationHelper.ValidateModelProperties(personUpdateRequest)
+            );
+
+            
+
+
+
+            // here assert.false means we are expecting the validation to fail since email format we gave is invalid so 
+            // if the actual value is also false then expected and actual value are same so our test case will pass
+
+            // in this case test case will pass 
+
+            //Assert.False(isValid);     // this means there is validation error but we dont know in which property 
 
 
             // in this whole code this is the only line that checks for email property validation error specifically above all it is for general case 
