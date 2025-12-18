@@ -25,7 +25,6 @@ namespace ServiceContracts.dto
         public int Age { get; set; }
 
 
-        [Required(ErrorMessage ="you must provide the {0}")]
         public GenderType Gender { get; set; }
 
         [EmailAddress(ErrorMessage ="Invalid email format")]

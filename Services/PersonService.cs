@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Services.Helpers;
 using ServiceContracts;
 using ServiceContracts.dto;
 using ServiceContracts.enums;
@@ -257,7 +258,15 @@ namespace Services
             if (personUpdateReqObj == null)
             {
               throw new ArgumentNullException(nameof(personUpdateReqObj));
+
+
             }
+
+            // vallidate dto using a helper because we are outside the mvc pipeline as we dont have controller view so here we have to manually validate
+            // but instead of writting that long code we have made validation helper class that helps to validate accroding the validation attributes
+            // applied to the dto properties 
+
+            ValidationHelper.ValidateModelProperties(personUpdateReqObj);
 
             //2. check if the personId is valid or not
 
@@ -265,6 +274,7 @@ namespace Services
             {
                 throw new ArgumentException("Invalid PersonId");
             }
+
 
 
             //3. if everything is valid then update the person details 

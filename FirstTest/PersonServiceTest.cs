@@ -6,6 +6,7 @@ using Services;
 using System.Security.Cryptography.X509Certificates;
 using Xunit.Sdk;
 using System.Net.Http.Headers;
+using System.ComponentModel.DataAnnotations;
 
 namespace FirstTest
 {
@@ -760,7 +761,49 @@ namespace FirstTest
             );
 
         }
-        //3. if the person id is valid then it should update the person details and return updated personresponse
+
+
+
+        // should throw error if the validation fail for the dto objects
+
+        [Fact]
+
+        public void UpdatePersonDetails_InvalidiProperties()
+        {
+            //1. Arrange
+
+            //creating a dto with invalid email format
+
+            PersonUpdateRequest? personUpdateRequest = new PersonUpdateRequest()
+            {
+                PersonId = Guid.NewGuid(),  // since this id is not present in the list it is invalid
+                PersonName = "Updated Name",
+                Email = "invalidemail" // invalid email format
+            };
+
+            // context is req by validator to check what obj and properties to validate
+            var context = new ValidationContext(personUpdateRequest);
+
+            // to store the validation results
+            var results = new List<ValidationResult>();
+
+
+            // this validates not only to email but all the properties of the dto object where the validators are applied ie email,personId,dob,etc
+            bool isValid = Validator.TryValidateObject(personUpdateRequest, context, results, true);
+
+
+
+            Assert.False(isValid);     // this means there is validation error but we dont know in which property 
+
+
+            // in this whole code this is the only line that checks for email property validation error specifically above all it is for general case 
+            // ie validation applied to all the properties of the dto object 
+            //Assert.Contains(results, error => error.MemberNames.Contains("Email")); // this checks for if email property is present in the 
+            // list of validation errors 
+
+        }
+
+            //3. if the person id is valid then it should update the person details and return updated personresponse
 
 
         [Fact]

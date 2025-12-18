@@ -10,6 +10,7 @@ namespace Services.Helpers
 {
     internal class ValidationHelper
     {
+        // this type of validation helper is useful when want to validate any dto object before processing it ie before adding or updating it in the db 
 
        public static void ValidateModelProperties(object? obj)
         {
