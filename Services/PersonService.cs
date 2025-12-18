@@ -1,6 +1,7 @@
 ﻿using Entities;
 using ServiceContracts;
 using ServiceContracts.dto;
+using ServiceContracts.enums;
 using Services.Helpers;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,6 +21,8 @@ namespace Services
 
         }
 
+
+        #region PersonResponse
         // here private because this method will be used only inside this PersonService class and it is made reusalbe because in future we might need it for different methods as well
 
         private PersonResponse ConvertPersonToPersonResponse_WithCountryName(Person person)
@@ -38,9 +41,11 @@ namespace Services
 
             return personResponse;
         }
-     
+        #endregion
 
-      public  PersonResponse AddPerson(PersonAddRequest? personAddRequest)
+
+        #region AddPerson
+        public PersonResponse AddPerson(PersonAddRequest? personAddRequest)
         {
             //perfrom validations for test cases
 
@@ -113,11 +118,15 @@ namespace Services
             
 
         }
+        #endregion
+
+        #region GetAllPersons
 
         public List<PersonResponse> GetAllPersons()
         {
             return _persons.Select(person => person.ConvertPersonToPersonResponse()).ToList();
         }
+        #endregion
 
 
         #region GetPersonById
@@ -142,10 +151,11 @@ namespace Services
         #endregion
 
 
-     
 
 
-          public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
+        #region GetFilteredPersons
+
+        public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
         {
             List<PersonResponse> allPersons = GetAllPersons();
 
@@ -173,6 +183,21 @@ namespace Services
             return filteredPersons;
         }
 
+
+
+        #endregion
+
+
+
+        #region GetSortedPersons
+
+        public List<PersonResponse> GetSortedPersons(List<PersonResponse> filteredPersons, string? sortBy, SortOrderOption sortOrder)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        #endregion
     }
 }
 

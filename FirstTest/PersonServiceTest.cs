@@ -5,6 +5,7 @@ using ServiceContracts.dto;
 using Services;
 using System.Security.Cryptography.X509Certificates;
 using Xunit.Sdk;
+using System.Net.Http.Headers;
 
 namespace FirstTest
 {
@@ -519,6 +520,168 @@ namespace FirstTest
 
         #endregion
 
+
+
+        #region GetSortedPersons
+
+        [Fact]
+
+        //1. if we put sortbyorder as null it should throw argumentnull exception
+
+        public void GetSortedPersons_NULLSortBy()
+        {
+            //1. Arrange
+
+            List<PersonResponse> filteredPersons = _personService.GetAllPersons();
+
+            string? sortBy = null;
+
+            //2. Act & Assert
+
+            Assert.Throws<ArgumentNullException>(() => _personService.GetSortedPersons(filteredPersons, sortBy, SortOrderOption.ascending));
+        }
+
+
+        //2. it should return sorted list in descending order if sortorder is descending
+
+
+        [Fact]
+
+
+        public void GetSortedPersons_DescendingOrder()
+        {
+
+            //1. arrange
+
+
+
+            List<AddCountryRequest> addcountryRequests = new List<AddCountryRequest>()
+            {
+
+            new AddCountryRequest()
+            {
+                CountryName = "Kenya"
+            },
+            new AddCountryRequest()
+            {
+                CountryName="Tanzania"
+            },
+            new AddCountryRequest()
+            {
+                CountryName="Uganda"
+            },
+            new AddCountryRequest()
+            {
+                                CountryName="Rwanda"
+            },
+            new AddCountryRequest()
+            {
+                                CountryName="Burundi"
+            }
+
+
+            };
+
+
+            List<CountryResponse> countryResponses = new List<CountryResponse>();
+
+
+            foreach (AddCountryRequest addCountry in addcountryRequests)
+            {
+                countryResponses.Add(_countriesService.AddCountry(addCountry));
+            }
+
+
+            List<PersonAddRequest> personAddRequests = new List<PersonAddRequest>()
+            {
+
+                new PersonAddRequest()
+                {
+                    PersonName="Kenya Person",
+                    Email="kenya@gmail.com",
+                    Address="Nairobi",
+                    CountryId=countryResponses[0].Id,
+                    Gender=GenderType.Male,
+                    DateOfBirth=new DateTime(2022,23,3)
+                },
+
+                   new PersonAddRequest()
+                {
+                    PersonName="Tanzania Person",
+                    Email="kenya@gmail.com",
+                    Address="Nairobi",
+                    CountryId=countryResponses[1].Id,
+                    Gender=GenderType.Male,
+                    DateOfBirth=new DateTime(2022,23,3)
+                },
+                new PersonAddRequest()
+                {
+                    PersonName="Uganda Person",
+                    Email="uganda@gmail.com",
+                    Address="Nairobi",
+                    CountryId=countryResponses[2].Id,
+                    Gender=GenderType.Male,
+                    DateOfBirth=new DateTime(2022,23,3)
+                },
+                 new PersonAddRequest()
+                {
+                    PersonName="Rwanda Person",
+                    Email="rwanda@gmail.com",
+                    Address="Rwanda city",
+                    CountryId=countryResponses[0].Id,
+                    Gender=GenderType.Female,
+                    DateOfBirth=new DateTime(2022,23,3)
+                },
+                new PersonAddRequest()
+                {
+                    PersonName="Burundi Person",
+                    Email="burundi@gmail.com",
+                    Address="Nairobi",
+                    CountryId=countryResponses[0].Id,
+                    Gender=GenderType.Others,
+                    DateOfBirth=new DateTime(2022,23,3)
+                },
+
+
+            };
+
+
+
+            List<PersonResponse> personResponses_from_addPerson = new List<PersonResponse>();
+            
+                foreach (var personAddReq in personAddRequests)
+            {
+                personResponses_from_addPerson.Add(_personService.AddPerson(personAddReq));
+            }
+
+
+
+            List<PersonResponse> allPersons = _personService.GetAllPersons();
+            // now since we have responses after adding persons to the db 
+
+
+            //2. Act 
+
+            List<PersonResponse> sortedPersonList_in_DescendingOrder=_personService.GetSortedPersons(allPersons,nameof(Person.PersonName), SortOrderOption.descending);
+
+
+
+            //3. assert (Now we need to check whethere the first elem in list of sortedPersonList_in_DescendingOrder is same as the last elem of personResponses_from_addPerson
+            //because in descending order last elem will be first and so on)
+
+            for (int i = 0; i < personResponses_from_addPerson.Count; i++)
+            {
+
+            Assert.Equal(personResponses_from_addPerson[i ], sortedPersonList_in_DescendingOrder[i]);
+
+            }
+
+
+        }
+
+
+
+        #endregion
 
 
     }

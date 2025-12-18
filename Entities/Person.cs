@@ -11,6 +11,7 @@ namespace Entities
     {
 
         // this is the domain model and it shouldnt be exposed to outside world directly ie controller/xuint test
+        // in this domain model we dont add validation here because this is only for data storage purpose we add validation to the dto classes
 
         public Guid PersonId { get; set; }
 
