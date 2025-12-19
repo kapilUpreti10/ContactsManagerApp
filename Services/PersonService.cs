@@ -14,14 +14,99 @@ namespace Services
 
         private readonly List<Person> _persons;
         private readonly ICountriesService _countriesService;
-        public PersonService()
+        public PersonService(bool initialize = true)
         {
             _persons = new List<Person>();
             _countriesService = new CountriesService();
 
+            if (initialize)
+            {
+              
+                
+                _persons.AddRange(new List<Person>()
 
+                {
+                    new Person()
+                    {
+                        PersonId = Guid.Parse("C321D7E8-F400-4CC2-815B-280946A07903"),
+                        PersonName = "John Doe",
+                        Email = "johndoe@email.com",
+                        DateOfBirth = new DateTime(1990, 5, 15),
+                        Gender = GenderType.Male.ToString(),
+                        Address = "Kathmandu",
+                        CountryId = Guid.Parse("B7078C84-62DD-4551-BA74-DAD88E597492") // Nepal
+                    },
+
+                    new Person()
+                    {
+                        PersonId = Guid.Parse("072413C7-2185-4E42-8259-823C03697463"),
+                        PersonName = "Anita Sharma",
+                        Email = "anita.sharma@email.com",
+                        DateOfBirth = new DateTime(1992, 3, 10),
+                        Gender = GenderType.Female.ToString(),
+                        Address = "Delhi",
+                        CountryId = Guid.Parse("A055FA40-94C0-43AE-83B0-86138B267297") // India
+                    },
+
+                    new Person()
+                    {
+                        PersonId = Guid.Parse("8107934E-75D4-4F75-B630-6B88F6777447"),
+                        PersonName = "Tenzin Dorji",
+                        Email = "tenzin.dorji@email.com",
+                        DateOfBirth = new DateTime(1988, 11, 22),
+                        Gender = GenderType.Male.ToString(),
+                        Address = "Thimphu",
+                        CountryId = Guid.Parse("C85C09FF-9DA2-44F8-AA86-59502FC3737F") // Bhutan
+                    },
+
+                    new Person()
+                    {
+                        PersonId = Guid.Parse("D0A8EE7C-9DF4-4277-862E-BF418C953E81"),
+                        PersonName = "Ahmed Khan",
+                        Email = "ahmed.khan@email.com",
+                        DateOfBirth = new DateTime(1985, 8, 5),
+                        Gender = GenderType.Male.ToString(),
+                        Address = "Lahore",
+                        CountryId = Guid.Parse("07481067-C679-4A48-9823-4B04F7E353E0") // Pakistan
+                    },
+
+                    new Person()
+                    {
+                        PersonId = Guid.Parse("CBF1B428-A099-489D-A66A-6023514FA346"),
+                        PersonName = "Rahima Begum",
+                        Email = "rahima.begum@email.com",
+                        DateOfBirth = new DateTime(1995, 1, 18),
+                        Gender = GenderType.Female.ToString(),
+                        Address = "Dhaka",
+                        CountryId = Guid.Parse("FEFC9D80-FB10-4114-AC9C-3F0F9E999974") // Bangladesh
+                    },
+
+                    new Person()
+                    {
+                        PersonId = Guid.Parse("8E9482B0-4440-45CC-A4BF-641327C40440"),
+                        PersonName = "Nimal Perera",
+                        Email = "nimal.perera@email.com",
+                        DateOfBirth = new DateTime(1991, 9, 30),
+                        Gender = GenderType.Male.ToString(),
+                        Address = "Colombo",
+                        CountryId = Guid.Parse("7DA058F2-DFBE-446B-BD9F-C68338399AED") // Sri Lanka
+                    },
+
+                    new Person()
+                    {
+                        PersonId = Guid.Parse("A6A41716-C23B-4772-BB40-0DA9AD0606E8"),
+                        PersonName = "Aisha Ali",
+                        Email = "aisha.ali@email.com",
+                        DateOfBirth = new DateTime(1993, 7, 12),
+                        Gender = GenderType.Female.ToString(),
+                        Address = "Male",
+                        CountryId = Guid.Parse("57643CCC-1371-4445-B92C-C74A6E428ED1") // Maldives
+                    },
+
+
+                });
+            }
         }
-
 
         #region PersonResponse
         // here private because this method will be used only inside this PersonService class and it is made reusalbe because in future we might need it for different methods as well
