@@ -10,12 +10,10 @@
     <!-- Header -->
     <header class="bg-green-600 text-white shadow-md">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <!-- Left -->
             <h1 class="text-xl font-semibold tracking-wide">
                 Contacts Manager App
             </h1>
 
-            <!-- Right -->
             <nav>
                 <ul class="flex space-x-6 text-sm font-medium">
                     <li class="hover:text-green-200 cursor-pointer transition">
@@ -33,14 +31,13 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 max-w-7xl mx-auto w-full px-6 py-8">
-        <div class="bg-white rounded-lg shadow-sm p-6">
+    <main class="flex-1 max-w-7xl mx-auto w-full px-6 py-8 flex flex-col">
+        <div class="bg-white rounded-lg shadow-sm p-6 flex-1 flex flex-col">
             @RenderBody()
         </div>
     </main>
-
     <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-300">
+    <footer class="bg-gray-800 text-gray-300 mt-auto">
         <div class="max-w-7xl mx-auto px-6 py-4 text-center text-sm">
             © 2025 Contacts Manager App. All rights reserved.
         </div>

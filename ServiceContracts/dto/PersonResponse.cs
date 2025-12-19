@@ -12,7 +12,7 @@ namespace ServiceContracts.dto
         public DateTime? DateOfBirth { get; set; }
         public string? Address { get; set; }
         public string? Gender { get; set; }
-        public Guid? CountryId { get; set; }
+        public Guid CountryId { get; set; }
 
         // theese are teh additional properties not present in the domain model Person class but we want to send as resoponse to the contrller so 
         // its functionality have to implement in the service class method which is returning this dto
@@ -82,7 +82,7 @@ namespace ServiceContracts.dto
                 DateOfBirth = person.DateOfBirth,
                 Address = person.Address,
                 Gender = person.Gender,
-                CountryId = person.CountryId,
+                CountryId = (Guid)person.CountryId,
                 Age = (person.DateOfBirth != null) ? Math.Round((DateTime.Now - person.DateOfBirth.Value).TotalDays / 365) : null
 
                 // note math.Round returns double type not and int

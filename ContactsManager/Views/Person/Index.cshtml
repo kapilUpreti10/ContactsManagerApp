@@ -1,0 +1,44 @@
+﻿@{
+	ViewBag.Title = "Persons List";
+
+
+}
+@model IEnumerable<PersonResponse>;
+
+<p> this list of person will be displayed here</p>
+
+<table class="min-w-full divide-y divide-gray-200">
+	<thead class="bg-gray-50">
+		<tr>
+			<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+				Name
+			</th>
+			<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+				Email
+			</th>
+			<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+				Gender
+			</th>
+			<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+				Date Of Birth
+			</th>
+			<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+				Age
+			</th>
+			
+		</tr>
+	</thead>
+	<tbody class="bg-white divide-y divide-gray-200">
+		@foreach (PersonResponse person in Model)
+		{
+			<tr>
+				@* <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.PersonId</td> *@
+				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.PersonName</td>
+				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Email</td>
+				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Gender</td>
+				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.DateOfBirth</td>
+				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Age</td>
+				
+			</tr>
+		}
+	</tbody>

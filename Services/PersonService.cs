@@ -34,7 +34,8 @@ namespace Services
                         DateOfBirth = new DateTime(1990, 5, 15),
                         Gender = GenderType.Male.ToString(),
                         Address = "Kathmandu",
-                        CountryId = Guid.Parse("B7078C84-62DD-4551-BA74-DAD88E597492") // Nepal
+                        CountryId = Guid.Parse("B7078C84-62DD-4551-BA74-DAD88E597492"),
+                        
                     },
 
                     new Person()
