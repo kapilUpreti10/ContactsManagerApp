@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/css/output.css" />
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-green-600 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Left -->
+            <h1 class="text-xl font-semibold tracking-wide">
+                Contacts Manager App
+            </h1>
+
+            <!-- Right -->
+            <nav>
+                <ul class="flex space-x-6 text-sm font-medium">
+                    <li class="hover:text-green-200 cursor-pointer transition">
+                        <a href="~/persons/index">Persons</a>
+                    </li>
+                    <li class="hover:text-green-200 cursor-pointer transition">
+                        About
+                    </li>
+                    <li class="hover:text-green-200 cursor-pointer transition">
+                        Help
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl mx-auto w-full px-6 py-8">
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            @RenderBody()
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 text-center text-sm">
+            © 2025 Contacts Manager App. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
