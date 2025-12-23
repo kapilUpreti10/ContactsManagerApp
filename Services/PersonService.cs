@@ -245,13 +245,18 @@ namespace Services
         public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
         {
             List<PersonResponse> allPersons = GetAllPersons();
+            List<PersonResponse> filteredPersons = allPersons;
 
             // If no search string, return all
             if (string.IsNullOrWhiteSpace(searchString))
                 return allPersons;
 
+
+            // method1:: using reflection to get property info dynamically
+            /*
             // Get property info dynamically
-            var propertyInfo = typeof(PersonResponse).GetProperty(searchBy);
+            var propertyInfo = typeof(PersonResponse).GetProperty(searchBy,System.Reflection.BindingFlags.IgnoreCase); 
+            // here we are ignoring the case sensitivity using bindingflags enum 
 
             // If property doesn't exist, return all (or throw exception if you want)
             if (propertyInfo == null)
@@ -266,6 +271,34 @@ namespace Services
                            value.ToString()!.Contains(searchString, StringComparison.OrdinalIgnoreCase);
                 })
                 .ToList();
+
+            */
+
+
+            // method2: using switch expression 
+
+            switch (searchBy)
+            {
+                case nameof(PersonResponse.PersonName):
+                    filteredPersons = allPersons.Where(person => person.PersonName != null && person.PersonName!.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                    break;
+
+                case nameof(PersonResponse.Email):
+                    filteredPersons = allPersons.Where(person => person.Email != null && person.Email!.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                    break;
+                case nameof(PersonResponse.Gender):
+                    filteredPersons = allPersons.Where(person => person.Gender != null && person.Gender!.Equals(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                    break;
+
+                case nameof(PersonResponse.Address):
+                    filteredPersons = allPersons.Where(person => person.Address != null && person.Address.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                    break;
+
+                case nameof(PersonResponse.CountryName):
+                    filteredPersons=allPersons.Where(person=>person.CountryName!=null && person.CountryName!.Contains(searchString,StringComparison.OrdinalIgnoreCase)).ToList();
+                    break;
+            }
+
 
             return filteredPersons;
         }

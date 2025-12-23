@@ -21,9 +21,9 @@ namespace ContactsManager.Controllers
 
         [Route("/persons/index")]
 
-        public IActionResult Index()
+        public IActionResult Index(string searchByForm,string? searchStringForm)
         {
-            List<PersonResponse>allPersons=_personService.GetAllPersons();
+            List<PersonResponse>allPersons=_personService.GetFilteredPersons(searchByForm,searchStringForm);
             List<CountryResponse> allCountries = _countriesService.GetAllCountries();
 
 
@@ -34,6 +34,20 @@ namespace ContactsManager.Controllers
 
             //};
 
+            ViewBag.SearchByFeildsName = new Dictionary<string, string>()
+            {
+                {  nameof(PersonResponse.PersonName),"Name" },
+                {nameof(PersonResponse.Email) ,"Email"},
+                {nameof(PersonResponse.Gender) ,"Gender"},
+                {nameof(PersonResponse.Address) ,"Address"},
+                {nameof(CountryResponse.CountryName) ,"Country"}
+
+            };
+            
+            // this if for value to persist in searchbox and dropwdown after new view page reloads
+
+            ViewBag.CurrentSearchString = searchStringForm;
+            ViewBag.CurrentSearchBy = searchByForm;
 
 
             return View(allPersons);

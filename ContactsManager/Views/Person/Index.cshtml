@@ -6,6 +6,9 @@
 @model IEnumerable<PersonResponse>;
 
 
+
+	@*in this url form will be submitted ie /persons/index route action method of controller will recieve this value *@
+	<form action="~/persons/index" method="get">
 <div class="flex items-center gap-4 mb-4">
 
 	<!-- Label + Select -->
@@ -14,18 +17,34 @@
 			Search By
 		</label>
 		<select class="h-9 px-3 text-sm border border-gray-300 rounded-md
-                   focus:outline-none focus:ring-2 focus:ring-blue-500">
-			<option>Name</option>
-			<option>Email</option>
-			<option>Gender</option>
-		</select>
+                   focus:outline-none focus:ring-2 focus:ring-blue-500" name="searchByForm"> 
+
+		@foreach(var field in ViewBag.SearchByFeildsName)
+			{
+				if(ViewBag.CurrentSearchBy == field.Key)
+				{
+						<option value="@field.Key" selected="selected" >"@field.Value"</option>
+				}
+					else
+						{
+							
+						<option value="@field.Key">@field.Value</option>
+						}
+			}
+			
+		</select>		
+
+		@*note:: for select option value to be submitted as form we must use name in select and value in option so that if we select
+			personName from dropdown as value then the form will be submitted as searchBy=personName in query string as our method is get
+			if we use post method then it will be submitted in request body 
+		*@
 	</div>
 
 	<!-- Search Input -->
-	<input type="text"
+	<input type="text"	
 		   placeholder="Search..."
-		   class="h-9 w-44 px-3 text-sm border border-gray-300 rounded-md
-               focus:outline-none focus:ring-2 focus:ring-blue-500" />
+		   class="h-9 w-80 px-3 text-sm border border-gray-300 rounded-md
+               focus:outline-none focus:ring-2 focus:ring-blue-500" name="searchStringForm" value="@ViewBag.CurrentSearchString"/>
 
 	<!-- Buttons -->
 	<div class="flex items-center gap-5">
@@ -38,7 +57,7 @@
 
 
 
-		<div class="mx-3">
+		<div class="mx-2">
 		<button 
 			class="h-9 px-4 text-sm font-medium text-black bg-red-600 rounded-md
                    hover:bg-red-700 transition">
@@ -48,7 +67,7 @@
 	</div>
 
 </div>
-
+</form>
 
 
 
