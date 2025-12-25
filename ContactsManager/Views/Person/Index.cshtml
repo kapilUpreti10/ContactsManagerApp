@@ -56,7 +56,7 @@
         <thead class="bg-gray-50">
             <tr>
                 @* Name column with sorting *@
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                @* <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     @if (ViewBag.CurrentSortBy == nameof(PersonResponse.PersonName) && ViewBag.CurrentSortOrderOption == "ascending")
                     {
                         <a href="~/persons/index/?searchByForm=@ViewBag.CurrentSearchBy&searchStringForm=@ViewBag.CurrentSearchString&sortBy=@ViewBag.CurrentSortBy&sortOrderOption=@nameof(SortOrderOption.descending)">Name ▲</a>
@@ -67,15 +67,55 @@
                     }
                     else
                     {
-                        // if the sortby is other than person name then we sort on ascending order which is the default behaviour 
-                        <a href="~/persons/index/?searchByForm=@ViewBag.CurrentSearchBy&searchStringForm=@ViewBag.CurrentSearchString&sortBy=@nameof(PersonResponse.PersonName)&sortOrderOption=ascending">Name</a>
+                        // if the sortby is other than person name then we sort on ascending order which is the default behaviour
+                        <a href="~/persons/index/?searchByForm=@ViewBag.CurrentSearchBy&searchStringForm=@ViewBag.CurrentSearchString&sortBy=@nameof(PersonResponse.PersonName)&sortOrderOption=ascending">Name ▲</a>
                     }
-                </th>
+                </th> *@
+                @* instead of repeating the code like above for all the column header we will make partial view and supply the column header dynamiccally*@
 
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gender</th>
+                @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
+                {
+                {"DisplayName","Name"},
+                {"QueryName",nameof(PersonResponse.PersonName)}
+                });
+
+                @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
+                {
+                {"DisplayName","Email"},
+                {"QueryName",nameof(PersonResponse.Email)}
+				});
+
+              
+                @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
+                                {
+                    { "DisplayName","Gender"},
+                    { "QueryName",nameof(PersonResponse.Gender)}
+
+                });
+
+                @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
+                                {
+                    { "DisplayName","Date Of Birth"},
+                                { "QueryName",nameof(PersonResponse.DateOfBirth)}
+                });
+
+
+                @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
+                                {
+                    { "DisplayName","Age"},
+                    { "QueryName",nameof(PersonResponse.Age)}
+
+                });
+
+
+
+
+                @* now no need to do like this below *@
+
+
+                @* <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gender</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Of Birth</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Age</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Age</th> *@
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
