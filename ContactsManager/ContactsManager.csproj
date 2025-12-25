@@ -1,9 +1,28 @@
-﻿ @* instead of repeating the code like above for all the column header we will make partial view and supply the column header dynamiccally*@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
- @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
- // new ViewDatadicitionary(ViewData) copies the existing viewData from the parent view and adds below key value pair to it and is send as viewBag 
-  // to the partial view 
- {
- {"DisplayName","Name"},
- {"QueryName",nameof(PersonResponse.PersonName)}
- });
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <Folder Include="wwwroot\" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entities\Entities.csproj" />
+    <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.0" />
+  </ItemGroup>
+	<Target Name="Tailwind" BeforeTargets="Build">
+		<Exec Command="npm run build-css" />
+	</Target>
+    </Project>

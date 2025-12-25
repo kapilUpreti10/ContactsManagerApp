@@ -74,6 +74,8 @@
                 @* instead of repeating the code like above for all the column header we will make partial view and supply the column header dynamiccally*@
 
                 @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
+                // new ViewDatadicitionary(ViewData) copies the existing viewData from the parent view and adds below key value pair to it and is send as viewBag 
+                 // to the partial view 
                 {
                 {"DisplayName","Name"},
                 {"QueryName",nameof(PersonResponse.PersonName)}
@@ -106,6 +108,12 @@
                     { "QueryName",nameof(PersonResponse.Age)}
 
                 });
+                @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
+                                {
+                    { "DisplayName","Country"},
+                    { "QueryName",nameof(PersonResponse.CountryName)}
+
+                });
 
 
 
@@ -127,6 +135,7 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Gender</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.DateOfBirth</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Age</td>
+					<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.CountryName</td>
                 </tr>
             }
         </tbody>
