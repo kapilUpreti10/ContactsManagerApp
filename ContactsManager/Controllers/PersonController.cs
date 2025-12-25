@@ -3,6 +3,7 @@ using Entities;
 using Microsoft.AspNetCore.Mvc;
 using ServiceContracts;
 using ServiceContracts.dto;
+using ServiceContracts.enums;
 
 namespace ContactsManager.Controllers
 {
@@ -21,7 +22,7 @@ namespace ContactsManager.Controllers
 
         [Route("/persons/index")]
 
-        public IActionResult Index(string searchByForm,string? searchStringForm)
+        public IActionResult Index(string searchByForm,string? searchStringForm,string sortBy=nameof(PersonResponse.PersonName), SortOrderOption sortOrderOption=SortOrderOption.ascending)
         {
             List<PersonResponse>allPersons=_personService.GetFilteredPersons(searchByForm,searchStringForm);
             List<CountryResponse> allCountries = _countriesService.GetAllCountries();
@@ -45,12 +46,16 @@ namespace ContactsManager.Controllers
             };
             
             // this if for value to persist in searchbox and dropwdown after new view page reloads
-
+                
             ViewBag.CurrentSearchString = searchStringForm;
             ViewBag.CurrentSearchBy = searchByForm;
 
+            ViewBag.CurrentSortBy = sortBy;
+            ViewBag.CurrentSortOrderOption = sortOrderOption.ToString();
 
-            return View(allPersons);
+           List<PersonResponse> sortedPersons= _personService.GetSortedPersons(allPersons, sortBy, sortOrderOption);
+
+            return View(sortedPersons);
         }
     }
 }

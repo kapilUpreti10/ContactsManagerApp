@@ -1,111 +1,94 @@
 ﻿@{
-	ViewBag.Title = "Persons List";
-
-
+    ViewBag.Title = "Persons List";
 }
-@model IEnumerable<PersonResponse>;
+@model IEnumerable<PersonResponse>
 
+<!-- Search Form -->
+<form action="~/persons/index" method="get">
+    <div class="flex items-center gap-4 mb-4">
 
+        <!-- Label + Select -->
+        <div class="flex items-center gap-2">
+            <label class="text-sm font-medium text-gray-700">Search By</label>
+            <select class="h-9 px-3 text-sm border border-gray-300 rounded-md
+                           focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    name="searchByForm">
+                @foreach (var field in ViewBag.SearchByFeildsName)
+                {
+                    if (ViewBag.CurrentSearchBy == field.Key)
+                    {
+                        <option value="@field.Key" selected>@field.Value</option>
+                    }
+                    else
+                    {
+                        <option value="@field.Key">@field.Value</option>
+                    }
+                }
+            </select>
+        </div>
 
-	@*in this url form will be submitted ie /persons/index route action method of controller will recieve this value *@
-	<form action="~/persons/index" method="get">
-<div class="flex items-center gap-4 mb-4">
+        <!-- Search Input -->
+        <input type="text"
+               placeholder="Search..."
+               class="h-9 w-80 px-3 text-sm border border-gray-300 rounded-md
+                      focus:outline-none focus:ring-2 focus:ring-blue-500"
+               name="searchStringForm"
+               value="@ViewBag.CurrentSearchString" />
 
-	<!-- Label + Select -->
-	<div class="flex items-center gap-2">
-		<label class="text-sm font-medium text-gray-700">
-			Search By
-		</label>
-		<select class="h-9 px-3 text-sm border border-gray-300 rounded-md
-                   focus:outline-none focus:ring-2 focus:ring-blue-500" name="searchByForm"> 
-
-		@foreach(var field in ViewBag.SearchByFeildsName)
-			{
-				if(ViewBag.CurrentSearchBy == field.Key)
-				{
-						<option value="@field.Key" selected="selected" >"@field.Value"</option>
-				}
-					else
-						{
-							
-						<option value="@field.Key">@field.Value</option>
-						}
-			}
-			
-		</select>		
-
-		@*note:: for select option value to be submitted as form we must use name in select and value in option so that if we select
-			personName from dropdown as value then the form will be submitted as searchBy=personName in query string as our method is get
-			if we use post method then it will be submitted in request body 
-		*@
-	</div>
-
-	<!-- Search Input -->
-	<input type="text"	
-		   placeholder="Search..."
-		   class="h-9 w-80 px-3 text-sm border border-gray-300 rounded-md
-               focus:outline-none focus:ring-2 focus:ring-blue-500" name="searchStringForm" value="@ViewBag.CurrentSearchString"/>
-
-	<!-- Buttons -->
-	<div class="flex items-center gap-5">
-		<div class="mx-3">
-		<button class="h-9 px-4 text-sm font-medium text-black bg-blue-600 rounded-md
-                   hover:bg-blue-700 transition">
-			Search
-		</button>
-		</div>
-
-
-
-		<div class="mx-2">
-		<button 
-			class="h-9 px-4 text-sm font-medium text-black bg-red-600 rounded-md
-                   hover:bg-red-700 transition">
-			Clear
-		</button>
-		</div>
-	</div>
-
-</div>
+        <!-- Buttons -->
+        <div class="flex items-center gap-5">
+            <button class="h-9 px-4 text-sm font-medium text-white bg-blue-600 rounded-md
+                           hover:bg-blue-700 transition">
+                Search
+            </button>
+            <a href="~/persons/index"
+               class="h-9 px-4 text-sm font-medium text-white bg-red-600 rounded-md
+                      hover:bg-red-700 transition flex items-center justify-center">
+                Clear
+            </a>
+        </div>
+    </div>
 </form>
 
-
-
+<!-- Table -->
 <div class="my-3">
-<table class="min-w-full divide-y divide-gray-200">
-	<thead class="bg-gray-50">
-		<tr>
-			<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-				Name
-			</th>
-			<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-				Email
-			</th>
-			<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-				Gender
-			</th>
-			<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-				Date Of Birth
-			</th>
-			<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-				Age
-			</th>
-			
-		</tr>
-	</thead>
-	<tbody class="bg-white divide-y divide-gray-200">
-		@foreach (PersonResponse person in Model)
-		{
-			<tr>
-				@* <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.PersonId</td> *@
-				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.PersonName</td>
-				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Email</td>
-				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Gender</td>
-				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.DateOfBirth</td>
-				<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Age</td>
-				
-			</tr>
-		}
-	</tbody>
-</div>
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                @* Name column with sorting *@
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    @if (ViewBag.CurrentSortBy == nameof(PersonResponse.PersonName) && ViewBag.CurrentSortOrderOption == "ascending")
+                    {
+                        <a href="~/persons/index/?searchByForm=@ViewBag.CurrentSearchBy&searchStringForm=@ViewBag.CurrentSearchString&sortBy=@ViewBag.CurrentSortBy&sortOrderOption=@nameof(SortOrderOption.descending)">Name ▲</a>
+                    }
+                    else if (ViewBag.CurrentSortBy == nameof(PersonResponse.PersonName) && ViewBag.CurrentSortOrderOption == SortOrderOption.descending.ToString())
+                    {
+                        <a href="~/persons/index/?searchByForm=@ViewBag.CurrentSearchBy&searchStringForm=@ViewBag.CurrentSearchString&sortBy=@ViewBag.CurrentSortBy&sortOrderOption=ascending">Name ▼</a>
+                    }
+                    else
+                    {
+                        // if the sortby is other than person name then we sort on ascending order which is the default behaviour 
+                        <a href="~/persons/index/?searchByForm=@ViewBag.CurrentSearchBy&searchStringForm=@ViewBag.CurrentSearchString&sortBy=@nameof(PersonResponse.PersonName)&sortOrderOption=ascending">Name</a>
+                    }
+                </th>
 
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gender</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Of Birth</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Age</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            @foreach (var person in Model)
+            {
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.PersonName</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Email</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Gender</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.DateOfBirth</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Age</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

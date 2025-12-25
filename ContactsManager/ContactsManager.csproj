@@ -18,6 +18,10 @@
     <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.0" />
+  </ItemGroup>
 	<Target Name="Tailwind" BeforeTargets="Build">
 		<Exec Command="npm run build-css" />
 	</Target>
