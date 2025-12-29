@@ -1,55 +1,125 @@
-﻿
-@{
-	ViewBag.Title = "Create persons list";
+﻿@{
+    ViewBag.Title = "Create persons list";
 }
 
+<a href="~/persons/index"
+   class="inline-block mb-4 text-blue-600 font-medium hover:underline">
+    ← Back to Person List
+</a>
 
-<a href="~/persons/index">Back to Person List</a>
-<h2>Create Person</h2>
+<h2 class="text-3xl font-semibold mb-6 text-gray-800">
+    Create Person
+</h2>
 
-<form action="~/persons/create" method="post">
+<form action="~/persons/create" method="post"
+      class="max-w-lg bg-white p-8 rounded-xl shadow-lg space-y-5 border border-gray-100">
 
-	@*now making div tag with label and input feild for each form option*@
+    <!-- Person Name -->
+    <div>
+        <label for="PersonName"
+               class="block text-sm font-semibold text-gray-700">
+            Person Name
+        </label>
+        <input id="PersonName"
+               name="PersonName"
+               type="text"
+               placeholder="Enter person name"
+               class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
+                      px-3 py-2 shadow-sm
+                      focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                      hover:border-blue-400
+                      transition duration-200" />
+    </div>
 
-    @*personName*@
+    <!-- Email -->
+    <div>
+        <label for="Email"
+               class="block text-sm font-semibold text-gray-700">
+            Email
+        </label>
+        <input id="Email"
+               name="Email"
+               type="email"
+               placeholder="example@email.com"
+               class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
+                      px-3 py-2 shadow-sm
+                      focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                      hover:border-blue-400
+                      transition duration-200" />
+    </div>
 
-	<div>
-		<label for="Personname">PersonName</label>
-		<input id="Personname" value="PersonName"/>
-	</div>
+    <!-- Date of Birth -->
+    <div>
+        <label for="DateOfBirth"
+               class="block text-sm font-semibold text-gray-700">
+            Date of Birth
+        </label>
+        <input id="DateOfBirth"
+               name="DateOfBirth"
+               type="date"
+               class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
+                      px-3 py-2 shadow-sm
+                      focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                      hover:border-blue-400
+                      transition duration-200" />
+    </div>
 
-	@*Email*@
-	<div>
-		<label for="email">Email</label>
-		<input id="email" value="Eamil"/>
-	</div>
+    <!-- Gender -->
+    <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">
+            Gender
+        </label>
 
-	@*DAate of Birth*@
+        <div class="flex gap-6">
+            @* @foreach (var gender in Enum.GetValues(typeof(GenderType))) *@
+            @foreach(GenderType gender in ViewBag.genderEnums)
+            {
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio"
+                           name="Gender"
+                           value="@gender"
+                           class="h-4 w-4 text-blue-600
+                                      focus:ring-2 focus:ring-blue-500" />
+                    <span class="text-gray-700">@gender</span>
+                </label>
+            }
+        </div>
+    </div>
 
-	<div>
-	 <label for="DOB">Date of Birth</label>
-	 <input id="DOB" value="DateOfBirth"/>
- </div>
+    <!-- Country -->
+    <div>
+        <label for="CountryId"
+               class="block text-sm font-semibold text-gray-700">
+            Country
+        </label>
 
- @*Gender*@
- <div>
-	 <label>Gender</label>
-	 <radio></radio>
- </div>
- 
- @*Country*@
- <div>
-	 <select for="Id" id="Id">
-		 Country
-	 </select>
-	 
-	         <option value="">Select country from here</option>
-			@foreach(CountryResponse country in ViewBag.countries)
-			{
-					 <option value="@country.Id">@country.CountryName</option>
-				
-			}
- </div>
+        <select id="CountryId"
+                name="CountryId"
+                class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
+                       px-3 py-2 shadow-sm
+                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                       hover:border-blue-400
+                       transition duration-200">
+            <option value="">Select country from here</option>
 
+            @foreach (CountryResponse country in ViewBag.countries)
+            {
+                <option value="@country.Id">
+                    @country.CountryName
+                </option>
+            }
+        </select>
+    </div>
 
+    <!-- Submit -->
+    <div class="pt-6">
+        <button type="submit"
+                class="w-full bg-blue-600 text-white font-semibold
+                       px-4 py-2 rounded-lg shadow-md
+                       hover:bg-blue-700 hover:shadow-lg
+                       focus:ring-2 focus:ring-blue-500
+                       transition duration-200">
+            Create Person
+        </button>
+    </div>
 </form>

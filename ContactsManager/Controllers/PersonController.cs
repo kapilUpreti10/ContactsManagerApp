@@ -65,6 +65,7 @@ namespace ContactsManager.Controllers
         {
             List<CountryResponse> allCountries=_countriesService.GetAllCountries();
             ViewBag.countries = allCountries;
+            ViewBag.genderEnums = Enum.GetValues<GenderType>();
             return View();
         }
     }
