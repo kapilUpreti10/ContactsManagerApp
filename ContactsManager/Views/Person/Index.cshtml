@@ -3,8 +3,12 @@
 }
 @model IEnumerable<PersonResponse>
 
+
+    
+
 <!-- Search Form -->
-<form action="~/persons/index" method="get">
+@* <form action="~/persons/index" method="get"> *@
+    <form asp-controller="Persons" asp-action="Index" method="get">
     <div class="flex items-center gap-4 mb-4">
 
         <!-- Label + Select -->
@@ -50,6 +54,9 @@
     </div>
 </form>
 
+
+<a class="underline text-green-500" href="~/persons/create">Create a Person</a>
+
 <!-- Table -->
 <div class="my-3">
     <table class="min-w-full divide-y divide-gray-200">
@@ -79,13 +86,13 @@
                 {
                 {"DisplayName","Name"},
                 {"QueryName",nameof(PersonResponse.PersonName)}
-                });
+                })
 
                 @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
                 {
                 {"DisplayName","Email"},
                 {"QueryName",nameof(PersonResponse.Email)}
-				});
+				})
 
               
                 @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
@@ -93,13 +100,13 @@
                     { "DisplayName","Gender"},
                     { "QueryName",nameof(PersonResponse.Gender)}
 
-                });
+                })
 
                 @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
                                 {
                     { "DisplayName","Date Of Birth"},
                                 { "QueryName",nameof(PersonResponse.DateOfBirth)}
-                });
+                })
 
 
                 @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
@@ -107,13 +114,13 @@
                     { "DisplayName","Age"},
                     { "QueryName",nameof(PersonResponse.Age)}
 
-                });
+                })
                 @await Html.PartialAsync("_TableColumnHeader",new ViewDataDictionary(ViewData)
                                 {
                     { "DisplayName","Country"},
                     { "QueryName",nameof(PersonResponse.CountryName)}
 
-                });
+                })
 
 
 

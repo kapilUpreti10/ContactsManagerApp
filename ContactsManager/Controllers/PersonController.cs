@@ -5,7 +5,7 @@ using ServiceContracts;
 using ServiceContracts.dto;
 using ServiceContracts.enums;
 
-namespace ContactsManager.Controllers
+namespace ContactsManager.Controllers 
 {
     public class PersonController:Controller
     {
@@ -61,7 +61,7 @@ namespace ContactsManager.Controllers
         [Route("/persons/create")]
         [HttpGet]  // inorder to only recieve the get request
 
-        public IActionResult CreatePerson()
+        public IActionResult Create()
         {
             List<CountryResponse> allCountries=_countriesService.GetAllCountries();
             ViewBag.countries = allCountries;
@@ -72,7 +72,7 @@ namespace ContactsManager.Controllers
         [Route("/persons/create")]
         [HttpPost]
 
-        public IActionResult CreatePerson(PersonAddRequest addPersonRequest)
+        public IActionResult Create(PersonAddRequest addPersonRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -86,6 +86,7 @@ namespace ContactsManager.Controllers
                 // this will return us the list of Ienumerable<string> containing the error messages
                
 
+                
 
                 return View();
 
