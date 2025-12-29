@@ -11,6 +11,23 @@
     Create Person
 </h2>
 
+
+
+ <!-- Error Messages -->
+@if (ViewBag.errorMessages != null && ViewBag.errorMessages.Count > 0)
+{
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <ul class="list-disc pl-5">
+            @foreach (string error in ViewBag.errorMessages)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+} 
+
+
+
 <form action="~/persons/create" method="post"
       class="max-w-lg bg-white p-8 rounded-xl shadow-lg space-y-5 border border-gray-100">
 
@@ -111,6 +128,24 @@
         </select>
     </div>
 
+    <!-- Address -->
+    <div>
+        <label for="address"
+               class="block text-sm font-semibold text-gray-700">
+            Address
+        </label>
+        <textarea id="address"
+               name="Address"
+               type="text"
+               placeholder="Enter teh address here"
+               class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
+                      px-3 py-2 shadow-sm
+                      focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                      hover:border-blue-400
+                      transition duration-200" ></textarea>
+
+    </div>
+
     <!-- Submit -->
     <div class="pt-6">
         <button type="submit"
@@ -119,7 +154,23 @@
                        hover:bg-blue-700 hover:shadow-lg
                        focus:ring-2 focus:ring-blue-500
                        transition duration-200">
-            Create Person
+            Create  
         </button>
     </div>
 </form>
+<script>
+    // Convert server-side error list to JS array
+    const errors = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.errorMessages));
+
+    if (errors && errors.length > 0) {
+        errors.forEach(err => {
+            toastr.error(err, "Validation Error", {
+                closeButton: true,
+                progressBar: true,
+                timeOut: 5000,
+                positionClass: "toast-top-right"
+            });
+        });
+    }
+</script>
+

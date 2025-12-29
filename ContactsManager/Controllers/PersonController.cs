@@ -68,5 +68,32 @@ namespace ContactsManager.Controllers
             ViewBag.genderEnums = Enum.GetValues<GenderType>();
             return View();
         }
+
+        [Route("/persons/create")]
+        [HttpPost]
+
+        public IActionResult CreatePerson(PersonAddRequest addPersonRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                // if there is error message then we should return the same view page like above with
+                // error messages
+
+                List<CountryResponse> allCountries = _countriesService.GetAllCountries();
+                ViewBag.countries = allCountries;
+                ViewBag.genderEnums = Enum.GetValues<GenderType>();
+                ViewBag.errorMessages = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                // this will return us the list of Ienumerable<string> containing the error messages
+               
+
+
+                return View();
+
+
+            }
+            _personService.AddPerson(addPersonRequest);
+
+            return RedirectToAction("Index","Person");
+        }
     }
 }
