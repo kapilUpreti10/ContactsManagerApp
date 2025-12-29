@@ -1,0 +1,55 @@
+﻿
+@{
+	ViewBag.Title = "Create persons list";
+}
+
+
+<a href="~/persons/index">Back to Person List</a>
+<h2>Create Person</h2>
+
+<form action="~/persons/create" method="post">
+
+	@*now making div tag with label and input feild for each form option*@
+
+    @*personName*@
+
+	<div>
+		<label for="Personname">PersonName</label>
+		<input id="Personname" value="PersonName"/>
+	</div>
+
+	@*Email*@
+	<div>
+		<label for="email">Email</label>
+		<input id="email" value="Eamil"/>
+	</div>
+
+	@*DAate of Birth*@
+
+	<div>
+	 <label for="DOB">Date of Birth</label>
+	 <input id="DOB" value="DateOfBirth"/>
+ </div>
+
+ @*Gender*@
+ <div>
+	 <label>Gender</label>
+	 <radio></radio>
+ </div>
+ 
+ @*Country*@
+ <div>
+	 <select for="Id" id="Id">
+		 Country
+	 </select>
+	 
+	         <option value="">Select country from here</option>
+			@foreach(CountryResponse country in ViewBag.countries)
+			{
+					 <option value="@country.Id">@country.CountryName</option>
+				
+			}
+ </div>
+
+
+</form>

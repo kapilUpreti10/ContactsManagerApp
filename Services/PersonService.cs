@@ -112,7 +112,7 @@ namespace Services
         #region PersonResponse
         // here private because this method will be used only inside this PersonService class and it is made reusalbe because in future we might need it for different methods as well
 
-        private PersonResponse ConvertPersonToPersonResponse_WithCountryName(Person person)
+        internal PersonResponse ConvertPersonToPersonResponse_WithCountryName(Person person)
         {
             // here whenever we want to convert person domain to personresponse then we have to call method as well as we also need to call getcountrybyid method of countrieservice
             //so we make one reusable method for that 
@@ -212,7 +212,7 @@ namespace Services
 
         public List<PersonResponse> GetAllPersons()
         {
-            return _persons.Select(person => person.ConvertPersonToPersonResponse()).ToList();
+            return _persons.Select(person => ConvertPersonToPersonResponse_WithCountryName(person)).ToList();
         }
         #endregion
 
@@ -233,7 +233,7 @@ namespace Services
             Person? foundPerson = _persons.FirstOrDefault(person => person.PersonId == personId);
 
             if (foundPerson == null) return null;
-            return foundPerson.ConvertPersonToPersonResponse();
+            return ConvertPersonToPersonResponse_WithCountryName(foundPerson);
         }
 
         #endregion
@@ -353,6 +353,12 @@ namespace Services
                 (nameof(PersonResponse.RecieveNewsLetters), SortOrderOption.descending) =>
                     filteredPersons.OrderByDescending(person => person.RecieveNewsLetters).ToList(),
 
+                (nameof(PersonResponse.CountryName), SortOrderOption.ascending) =>
+                filteredPersons.OrderBy(person => person.CountryName).ToList(),
+
+                (nameof(PersonResponse.CountryName), SortOrderOption.descending) =>
+               filteredPersons.OrderByDescending(person => person.CountryName).ToList(),
+
                 _ => filteredPersons       // default case if no match found which is represented by _(underscore symbol)
 
 
@@ -427,7 +433,7 @@ namespace Services
             personToBeUpdated.Email = personUpdateReqObj.Email != null ? personUpdateReqObj.Email : personToBeUpdated.Email;
 
 
-            return personToBeUpdated.ConvertPersonToPersonResponse();
+            return ConvertPersonToPersonResponse_WithCountryName(personToBeUpdated);
 
             }
         #endregion

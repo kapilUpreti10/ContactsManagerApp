@@ -57,5 +57,15 @@ namespace ContactsManager.Controllers
 
             return View(sortedPersons);
         }
+
+        [Route("/persons/create")]
+        [HttpGet]  // inorder to only recieve the get request
+
+        public IActionResult CreatePerson()
+        {
+            List<CountryResponse> allCountries=_countriesService.GetAllCountries();
+            ViewBag.countries = allCountries;
+            return View();
+        }
     }
 }
