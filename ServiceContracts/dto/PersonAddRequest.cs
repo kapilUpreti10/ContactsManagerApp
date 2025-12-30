@@ -16,6 +16,8 @@ namespace ServiceContracts.dto
         [Required(ErrorMessage ="you must provide the email")]
         [EmailAddress(ErrorMessage ="Invalid email format")]
         // if value is compulsory then we can use non nullable types otherwise nullable types
+
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required(ErrorMessage ="you must provide the date of birth")]

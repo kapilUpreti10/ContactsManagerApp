@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Create persons list";
 }
+@model PersonAddRequest;
 
 <a asp-controller="Person" asp-action="index"
    class="inline-block mb-4 text-blue-600 font-medium hover:underline">
@@ -42,7 +43,7 @@
                class="block text-sm font-semibold text-gray-700">
             Person Name
         </label>
-        <input id="PersonName"
+        @* <input id="PersonName"
                name="PersonName"
                type="text"
                placeholder="Enter person name"
@@ -50,7 +51,17 @@
                       px-3 py-2 shadow-sm
                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                       hover:border-blue-400
+                      transition duration-200" /> *@
+        <input  asp-for="PersonName"
+               placeholder="Enter person name"
+               class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
+                      px-3 py-2 shadow-sm
+                      focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                      hover:border-blue-400
                       transition duration-200" />
+
+               @* this code is more clean that above as it automatically generates necessary attributes for us *@
+         
     </div>
 
     <!-- Email -->
@@ -59,9 +70,8 @@
                class="block text-sm font-semibold text-gray-700">
             Email
         </label>
-        <input id="Email"
-               name="Email"
-               type="email"
+        <input asp-for="Email"
+               
                placeholder="example@email.com"
                class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
                       px-3 py-2 shadow-sm
@@ -76,9 +86,7 @@
                class="block text-sm font-semibold text-gray-700">
             Date of Birth
         </label>
-        <input id="DateOfBirth"
-               name="DateOfBirth"
-               type="date"
+        <input asp-for="DateOfBirth"
                class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
                       px-3 py-2 shadow-sm
                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
@@ -98,7 +106,7 @@
             {
                 <label class="flex items-center gap-2 cursor-pointer">
                     <input type="radio"
-                           name="Gender"
+                           asp-for="Gender"
                            value="@gender"
                            class="h-4 w-4 text-blue-600
                                       focus:ring-2 focus:ring-blue-500" />
@@ -110,13 +118,12 @@
 
     <!-- Country -->
     <div>
-        <label for="CountryId"
+        <label asp-for="CountryId"
                class="block text-sm font-semibold text-gray-700">
             Country
         </label>
 
-        <select id="CountryId"
-                name="CountryId"
+        <select asp-for="CountryId"
                 class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
                        px-3 py-2 shadow-sm
                        focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
@@ -139,9 +146,7 @@
                class="block text-sm font-semibold text-gray-700">
             Address
         </label>
-        <textarea id="address"
-               name="Address"
-               type="text"
+        <textarea asp-for="Address"
                placeholder="Enter teh address here"
                class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
                       px-3 py-2 shadow-sm
@@ -164,3 +169,9 @@
     </div>
 </form>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js" integrity="sha512-KFHXdr2oObHKI9w4Hv1XPKc898mE4kgYx58oqsc/JqqdLMDI4YjOLzom+EMlW8HFUd0QfjfAvxSL6sEq/a42fQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js" integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
