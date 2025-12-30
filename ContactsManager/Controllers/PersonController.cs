@@ -96,5 +96,66 @@ namespace ContactsManager.Controllers
 
             return RedirectToAction("Index","Person");
         }
+
+
+        [HttpGet]
+        [Route("[controller]/[action]/{personId}")]
+        // /Person/Update/3456-7890-1234-56789abcdef0
+
+        public IActionResult Update(Guid personId)
+        {
+           PersonResponse? personToBeUpdated=   _personService.GetPersonById(personId);
+            if(personToBeUpdated == null)
+            {
+                return RedirectToAction("Index", "person");
+            }
+
+            PersonUpdateRequest? personUpdateRequest = personToBeUpdated?.ConvertToPersonUpdateRequest();
+
+            ViewBag.genderEnums = Enum.GetValues<GenderType>();
+            ViewBag.countries = _countriesService.GetAllCountries();
+            
+
+            return View(personUpdateRequest);
+        }
+
+
+
+        // now to handle the updated post req to 
+
+        [HttpPost]
+        [Route("[controller]/[action]/{personId}")]
+
+        public IActionResult Update(PersonUpdateRequest personUpdateReq_From_Form,Guid personId)
+        {
+            // since here we are not recieving PersonId to display the update page of which person so we must pass it from 
+            // razor page as a hidden feild here
+
+            PersonResponse? personResponse = _personService.GetPersonById(personId);
+
+            if (personResponse == null)
+            {
+
+                return RedirectToAction("Index", "person");
+
+            }
+            if (ModelState.IsValid)
+            {
+                _personService.UpdatePersonDetails(personUpdateReq_From_Form);
+                return RedirectToAction("Index", "person");
+            }
+            else
+            {
+                ViewBag.genderEnums= Enum.GetValues<GenderType>();
+                ViewBag.countries = _countriesService.GetAllCountries();
+                ViewBag.errorMessages = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+
+
+                return View();
+
+            }
+                
+        }
+
     }
 }

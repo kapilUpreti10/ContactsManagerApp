@@ -1,7 +1,7 @@
 ﻿@{
-    ViewBag.Title = "Create persons list";
+    ViewBag.Title = "Update persons";
 }
-@model PersonAddRequest;
+@model PersonUpdateRequest;
 
 <a asp-controller="Person" asp-action="index"
    class="inline-block mb-4 text-blue-600 font-medium hover:underline">
@@ -9,12 +9,12 @@
 </a>
 
 <h2 class="text-3xl font-semibold mb-6 text-gray-800">
-    Create Person
+    Update Person
 </h2>
 
 
 
- <!-- Error Messages  after server side validaton -->
+<!-- Error Messages  after server side validaton -->
 @* this only displays the error message after we send req to the server and server performs server side validaton .. since this error message which
 we write above the properties in dto can all be displayed from server side validation so it is optional to write this code
 *@
@@ -28,17 +28,22 @@ we write above the properties in dto can all be displayed from server side valid
             }
         </ul>
     </div>
-} 
+}
 
 
 
 @* <form action="~/persons/create" method="post"
       class="max-w-lg bg-white p-8 rounded-xl shadow-lg space-y-5 border border-gray-100"> *@
 
-      <!-- using the tag helper for the form -->
+<!-- using the tag helper for the form -->
 
-<form asp-controller="Person" asp-action="Create" method="post"
+<form asp-controller="Person" asp-action="update" asp-route-personId="" method="post"
       class="max-w-lg bg-white p-8 rounded-xl shadow-lg space-y-5 border border-gray-100">
+
+
+      <input type="hidden" asp-for="PersonId"/>
+	@* here this is hidden because we dont want to show it in ui and this is require to identify which person to display if the 
+        update req fails due to validation erros *@
 
     <!-- Person Name -->
     <div>
@@ -55,17 +60,17 @@ we write above the properties in dto can all be displayed from server side valid
                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                       hover:border-blue-400
                       transition duration-200" /> *@
-        <input  asp-for="PersonName"
+        <input asp-for="PersonName"
                placeholder="Enter person name"
                class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
                       px-3 py-2 shadow-sm
                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                       hover:border-blue-400
                       transition duration-200" />
-               <span asp-validation-for="PersonName" class="text-red-700 font-semibold"></span>
+        <span asp-validation-for="PersonName" class="text-red-700 font-semibold"></span>
 
-               @* this code is more clean that above as it automatically generates necessary attributes for us *@
-         
+        @* this code is more clean that above as it automatically generates necessary attributes for us *@
+
     </div>
 
     <!-- Email -->
@@ -75,14 +80,13 @@ we write above the properties in dto can all be displayed from server side valid
             Email
         </label>
         <input asp-for="Email"
-               
                placeholder="example@email.com"
                class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
                       px-3 py-2 shadow-sm
                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                       hover:border-blue-400
                       transition duration-200" />
-               <span asp-validation-for="Email" class="text-red-700 font-semibold"></span>
+        <span asp-validation-for="Email" class="text-red-700 font-semibold"></span>
     </div>
 
     <!-- Date of Birth -->
@@ -97,7 +101,7 @@ we write above the properties in dto can all be displayed from server side valid
                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                       hover:border-blue-400
                       transition duration-200" />
-		<span asp-validation-for="DateOfBirth" class="text-red-700 font-semibold"></span>
+        <span asp-validation-for="DateOfBirth" class="text-red-700 font-semibold"></span>
     </div>
 
     <!-- Gender -->
@@ -106,19 +110,19 @@ we write above the properties in dto can all be displayed from server side valid
             Gender
         </label>
 
-        <div class="flex gap-6" >
+        <div class="flex gap-6">
             @* @foreach (var gender in Enum.GetValues(typeof(GenderType))) *@
-            @foreach(GenderType gender in ViewBag.genderEnums)
+            @foreach (GenderType gender in ViewBag.genderEnums)
             {
                 <label class="flex items-center gap-2 cursor-pointer">
                     <input type="radio"
                            asp-for="Gender"
                            value="@gender"
                            class="h-4 w-4 text-blue-600
-                                      focus:ring-2 focus:ring-blue-500" />
+                                          focus:ring-2 focus:ring-blue-500" />
                     <span class="text-gray-700">@gender</span>
                 </label>
-                
+
             }
             <span asp-validation-for="Gender" class="text-red-700 font-semibold"></span>
         </div>
@@ -156,13 +160,13 @@ we write above the properties in dto can all be displayed from server side valid
             Address
         </label>
         <textarea asp-for="Address"
-               placeholder="Enter teh address here"
-               class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
+                  placeholder="Enter teh address here"
+                  class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50
                       px-3 py-2 shadow-sm
                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                       hover:border-blue-400
-                      transition duration-200" ></textarea>
-               <span class="text-red-700 font-medium" asp-validation-for="Address"></span>
+                      transition duration-200"></textarea>
+        <span class="text-red-700 font-medium" asp-validation-for="Address"></span>
     </div>
 
     <!-- Submit -->
@@ -173,13 +177,12 @@ we write above the properties in dto can all be displayed from server side valid
                        hover:bg-blue-700 hover:shadow-lg
                        focus:ring-2 focus:ring-blue-500
                        transition duration-200">
-            Create  
+            Update
         </button>
     </div>
 
     @* to display all the validation errros *@
     <div asp-validation-summary="All" class="text-red-700 font-medium ">
-        
     </div>
 </form>
 
@@ -187,21 +190,20 @@ we write above the properties in dto can all be displayed from server side valid
 
 
 
- @* we are trying to make section so that we can make this sript appear just above the </body> not anywhere else so we will render it there using seciton tag *@
-@section scripts{
+@* we are trying to make section so that we can make this sript appear just above the </body> not anywhere else so we will render it there using seciton tag *@
+@section scripts {
 
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
-asp-fallback-test="window.jQuery"
-        asp-fallback-src="~/lib/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            asp-fallback-src="~/lib/jquery.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator"
-        asp-fallback-src="~/lib/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator"
+            asp-fallback-src="~/lib/jquery.validate.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"
-asp-fallback-src="~/lib/query.validate.unobtrusive.min.js"
-asp-fallback-test="window.jQuery.validator.unobtrusive"
-></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"
+            asp-fallback-src="~/lib/query.validate.unobtrusive.min.js"
+            asp-fallback-test="window.jQuery.validator.unobtrusive"></script>
 
 }

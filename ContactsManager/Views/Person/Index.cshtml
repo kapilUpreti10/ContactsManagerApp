@@ -146,6 +146,15 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.DateOfBirth</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.Age</td>
 					<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@person.CountryName</td>
+                    <td class="text-green-500 text-sm py-4 px-3 whitespace-nowrap">
+                    <a class="underline"
+                      asp-controller="person"
+                      asp-action="update"
+                      asp-route-personId="@person.PersonId">
+                          Update                 
+                          @* this makes req to the /person/update/{personId} *@
+                </a>
+                    </td>
                 </tr>
             }
         </tbody>

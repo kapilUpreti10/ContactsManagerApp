@@ -12,14 +12,14 @@ namespace Services
     public class PersonService:IPersonService
     {
 
-        private readonly List<Person> _persons;
+        private static readonly List<Person> _persons=new();
         private readonly ICountriesService _countriesService;
         public PersonService(bool initialize = true)
         {
-            _persons = new List<Person>();
+            //_persons = new List<Person>();
             _countriesService = new CountriesService();
 
-            if (initialize)
+            if (initialize && _persons.Count==0)
             {
               
                 
@@ -194,7 +194,8 @@ namespace Services
 
             //2. generate guid id
             person.PersonId = Guid.NewGuid();
-            person.CountryId = Guid.NewGuid();
+            person.CountryId = Guid.NewGuid();  // since user selects a country from dropdown which already have countryId 
+            // so we dont have to generate new country id here
 
             //3. adding person to the list
             _persons.Add(person);
