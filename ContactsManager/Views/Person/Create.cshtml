@@ -14,7 +14,10 @@
 
 
 
- <!-- Error Messages -->
+ <!-- Error Messages  after server side validaton -->
+@* this only displays the error message after we send req to the server and server performs server side validaton .. since this error message which
+we write above the properties in dto can all be displayed from server side validation so it is optional to write this code
+*@
 @if (ViewBag.errorMessages != null && ViewBag.errorMessages.Count > 0)
 {
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -59,6 +62,7 @@
                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                       hover:border-blue-400
                       transition duration-200" />
+               <span asp-validation-for="PersonName" class="text-red-700 font-semibold"></span>
 
                @* this code is more clean that above as it automatically generates necessary attributes for us *@
          
@@ -78,6 +82,7 @@
                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                       hover:border-blue-400
                       transition duration-200" />
+               <span asp-validation-for="Email" class="text-red-700 font-semibold"></span>
     </div>
 
     <!-- Date of Birth -->
@@ -92,6 +97,7 @@
                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                       hover:border-blue-400
                       transition duration-200" />
+		<span asp-validation-for="DateOfBirth" class="text-red-700 font-semibold"></span>
     </div>
 
     <!-- Gender -->
@@ -100,7 +106,7 @@
             Gender
         </label>
 
-        <div class="flex gap-6">
+        <div class="flex gap-6" >
             @* @foreach (var gender in Enum.GetValues(typeof(GenderType))) *@
             @foreach(GenderType gender in ViewBag.genderEnums)
             {
@@ -112,7 +118,9 @@
                                       focus:ring-2 focus:ring-blue-500" />
                     <span class="text-gray-700">@gender</span>
                 </label>
+                
             }
+            <span asp-validation-for="Gender" class="text-red-700 font-semibold"></span>
         </div>
     </div>
 
@@ -138,6 +146,7 @@
                 </option>
             }
         </select>
+        <span asp-validation-for="CountryId" class="text-red-700 font-semibold"></span>
     </div>
 
     <!-- Address -->
@@ -153,7 +162,7 @@
                       focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                       hover:border-blue-400
                       transition duration-200" ></textarea>
-
+               <span class="text-red-700 font-medium" asp-validation-for="Address"></span>
     </div>
 
     <!-- Submit -->
@@ -167,11 +176,23 @@
             Create  
         </button>
     </div>
+
+    @* to display all the validation errros *@
+    <div asp-validation-summary="All" class="text-red-700 font-medium ">
+        
+    </div>
 </form>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js" integrity="sha512-KFHXdr2oObHKI9w4Hv1XPKc898mE4kgYx58oqsc/JqqdLMDI4YjOLzom+EMlW8HFUd0QfjfAvxSL6sEq/a42fQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
+asp-fallback-test="window.jQuery"
+        asp-fallback-src="~/lib/jquery.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js" integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator"
+        asp-fallback-src="~/lib/jquery.validate.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"
+asp-fallback-src="~/lib/query.validate.unobtrusive.min.js"
+asp-fallback-test="window.jQuery.validator.unobtrusive"
+></script>

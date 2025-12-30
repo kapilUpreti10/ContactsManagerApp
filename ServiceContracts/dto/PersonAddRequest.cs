@@ -25,7 +25,11 @@ namespace ServiceContracts.dto
         public DateTime? DateOfBirth { get; set; }
 
         public string? Address { get; set; }
+
+        [Required(ErrorMessage ="Dont feel shy to select your gender")]
         public GenderType? Gender { get; set; }
+
+        [Required(ErrorMessage ="Please select the country ")]
         public Guid? CountryId { get; set; }
 
 
