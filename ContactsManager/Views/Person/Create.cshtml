@@ -2,7 +2,7 @@
     ViewBag.Title = "Create persons list";
 }
 
-<a href="~/persons/index"
+<a asp-controller="Person" asp-action="index"
    class="inline-block mb-4 text-blue-600 font-medium hover:underline">
     ← Back to Person List
 </a>
@@ -33,7 +33,7 @@
 
       <!-- using the tag helper for the form -->
 
-<form asp-controller="Person" action="Create" method="post"
+<form asp-controller="Person" asp-action="Create" method="post"
       class="max-w-lg bg-white p-8 rounded-xl shadow-lg space-y-5 border border-gray-100">
 
     <!-- Person Name -->
@@ -163,19 +163,4 @@
         </button>
     </div>
 </form>
-<script>
-    // Convert server-side error list to JS array
-    const errors = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.errorMessages));
-
-    if (errors && errors.length > 0) {
-        errors.forEach(err => {
-            toastr.error(err, "Validation Error", {
-                closeButton: true,
-                progressBar: true,
-                timeOut: 5000,
-                positionClass: "toast-top-right"
-            });
-        });
-    }
-</script>
 

@@ -8,7 +8,7 @@
 
 <!-- Search Form -->
 @* <form action="~/persons/index" method="get"> *@
-    <form asp-controller="Persons" asp-action="Index" method="get">
+    <form asp-controller="person" asp-action="index" method="get">
     <div class="flex items-center gap-4 mb-4">
 
         <!-- Label + Select -->
@@ -55,7 +55,10 @@
 </form>
 
 
-<a class="underline text-green-500" href="~/persons/create">Create a Person</a>
+@* <a class="underline text-green-500" href="~/persons/create">Create a Person</a> *@
+<a asp-controller="person" asp-action="create" class="underline text-green-500">
+    Create a Person
+</a>
 
 <!-- Table -->
 <div class="my-3">
