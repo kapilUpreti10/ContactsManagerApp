@@ -153,8 +153,20 @@
                       asp-route-personId="@person.PersonId">
                           Update                 
                           @* this makes req to the /person/update/{personId} *@
-                </a>
+                     </a>
                     </td>
+
+                    <td class="text-red-500 text-sm py-4 px-3 whitespace-nowrap font-semibold">
+                        <a class="underline "
+                      asp-controller="person"
+                      asp-action="delete"
+                      asp-route-personId="@person.PersonId">
+                          Delete                 
+                          @* this makes req to the /person/delete/{personId} *@
+						</a>
+                    </td>
+
+                    
                 </tr>
             }
         </tbody>

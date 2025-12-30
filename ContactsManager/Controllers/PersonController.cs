@@ -157,5 +157,42 @@ namespace ContactsManager.Controllers
                 
         }
 
+        [HttpGet]
+        [Route("[controller]/[action]/{personId}")]
+
+
+        public IActionResult Delete(Guid PersonId)
+        {
+            PersonResponse? personResponse = _personService.GetPersonById(PersonId);
+
+            if (personResponse == null)
+            {
+                return RedirectToAction("Index", "person");
+            }
+
+            ViewBag.persondetails = new
+            {
+                name = personResponse.PersonName,
+                id = personResponse.PersonId,
+            };
+            return View();
+        }
+
+        [HttpPost]
+        [Route("[controller]/[action]/{personId}")]
+
+        // here we are adding confirmation just to make this delete action different thatn above delete with httpget 
+        public IActionResult Delete(Guid personId,string? confirmation)
+        {
+            PersonResponse deletedPerson = _personService.GetPersonById(personId);
+            if (deletedPerson == null)
+            {
+                return RedirectToAction("Index", "person");
+            }
+            // if user clicks on confirm button
+            _personService.DeletePersonById(personId);
+            return RedirectToAction("Index", "person");
+        }
+
     }
 }

@@ -1,0 +1,25 @@
+﻿@{
+	ViewBag.Title = "Delete Person";
+}
+
+
+<h2 class="text-3xl font-semibold mb-6 text-gray-800">
+	Delete Person
+</h2>
+
+<div>
+	<p class="mb-4">Are you sure you want to delete the person: <strong>@ViewBag.persondetails.name</strong>?</p>
+	<form asp-controller="Person" asp-action="Delete" asp-route-personId="@ViewBag.persondetails.id" method="post" class="inline">
+		
+		<button type="submit"
+				class="h-9 px-4 text-sm font-medium text-white bg-red-600 rounded-md
+					   hover:bg-red-700 transition">
+			Yes, Delete
+		</button>
+	</form>
+	<a asp-controller="Person" asp-action="Index"
+	   class="h-9 px-4 text-sm font-medium text-white bg-gray-600 rounded-md
+			  hover:bg-gray-700 transition inline-block ml-4">
+		Cancel
+	</a>
+</div>
