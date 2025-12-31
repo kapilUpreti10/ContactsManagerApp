@@ -12,101 +12,42 @@ namespace Services
     public class PersonService:IPersonService
     {
 
-        private static readonly List<Person> _persons=new();
+        //private static readonly List<Person> _persons=new();
+        private readonly ContactsManagerDbContext _db;
         private readonly ICountriesService _countriesService;
-        public PersonService(bool initialize = true)
+        public PersonService(ContactsManagerDbContext contactsManagerDbContext,ICountriesService countriesService)
         {
             //_persons = new List<Person>();
-            _countriesService = new CountriesService();
+            //_countriesService = new CountriesService();
 
-            if (initialize && _persons.Count==0)
-            {
-              
-                
-                _persons.AddRange(new List<Person>()
-
-                {
-                    new Person()
-                    {
-                        PersonId = Guid.Parse("C321D7E8-F400-4CC2-815B-280946A07903"),
-                        PersonName = "John Doe",
-                        Email = "johndoe@email.com",
-                        DateOfBirth = new DateTime(1990, 5, 15),
-                        Gender = GenderType.Male.ToString(),
-                        Address = "Kathmandu",
-                        CountryId = Guid.Parse("B7078C84-62DD-4551-BA74-DAD88E597492"),
-                        
-                    },
-
-                    new Person()
-                    {
-                        PersonId = Guid.Parse("072413C7-2185-4E42-8259-823C03697463"),
-                        PersonName = "Anita Sharma",
-                        Email = "anita.sharma@email.com",
-                        DateOfBirth = new DateTime(1992, 3, 10),
-                        Gender = GenderType.Female.ToString(),
-                        Address = "Delhi",
-                        CountryId = Guid.Parse("A055FA40-94C0-43AE-83B0-86138B267297") // India
-                    },
-
-                    new Person()
-                    {
-                        PersonId = Guid.Parse("8107934E-75D4-4F75-B630-6B88F6777447"),
-                        PersonName = "Tenzin Dorji",
-                        Email = "tenzin.dorji@email.com",
-                        DateOfBirth = new DateTime(1988, 11, 22),
-                        Gender = GenderType.Male.ToString(),
-                        Address = "Thimphu",
-                        CountryId = Guid.Parse("C85C09FF-9DA2-44F8-AA86-59502FC3737F") // Bhutan
-                    },
-
-                    new Person()
-                    {
-                        PersonId = Guid.Parse("D0A8EE7C-9DF4-4277-862E-BF418C953E81"),
-                        PersonName = "Ahmed Khan",
-                        Email = "ahmed.khan@email.com",
-                        DateOfBirth = new DateTime(1985, 8, 5),
-                        Gender = GenderType.Male.ToString(),
-                        Address = "Lahore",
-                        CountryId = Guid.Parse("07481067-C679-4A48-9823-4B04F7E353E0") // Pakistan
-                    },
-
-                    new Person()
-                    {
-                        PersonId = Guid.Parse("CBF1B428-A099-489D-A66A-6023514FA346"),
-                        PersonName = "Rahima Begum",
-                        Email = "rahima.begum@email.com",
-                        DateOfBirth = new DateTime(1995, 1, 18),
-                        Gender = GenderType.Female.ToString(),
-                        Address = "Dhaka",
-                        CountryId = Guid.Parse("FEFC9D80-FB10-4114-AC9C-3F0F9E999974") // Bangladesh
-                    },
-
-                    new Person()
-                    {
-                        PersonId = Guid.Parse("8E9482B0-4440-45CC-A4BF-641327C40440"),
-                        PersonName = "Nimal Perera",
-                        Email = "nimal.perera@email.com",
-                        DateOfBirth = new DateTime(1991, 9, 30),
-                        Gender = GenderType.Male.ToString(),
-                        Address = "Colombo",
-                        CountryId = Guid.Parse("7DA058F2-DFBE-446B-BD9F-C68338399AED") // Sri Lanka
-                    },
-
-                    new Person()
-                    {
-                        PersonId = Guid.Parse("A6A41716-C23B-4772-BB40-0DA9AD0606E8"),
-                        PersonName = "Aisha Ali",
-                        Email = "aisha.ali@email.com",
-                        DateOfBirth = new DateTime(1993, 7, 12),
-                        Gender = GenderType.Female.ToString(),
-                        Address = "Male",
-                        CountryId = Guid.Parse("57643CCC-1371-4445-B92C-C74A6E428ED1") // Maldives
-                    },
+            //    if (initialize && _persons.Count==0)
+            //    {
 
 
-                });
-            }
+            //        _persons.AddRange(new List<Person>()
+
+            //        {
+            //            new Person()
+            //            {
+            //                PersonId = Guid.Parse("C321D7E8-F400-4CC2-815B-280946A07903"),
+            //                PersonName = "John Doe",
+            //                Email = "johndoe@email.com",
+            //                DateOfBirth = new DateTime(1990, 5, 15),
+            //                Gender = GenderType.Male.ToString(),
+            //                Address = "Kathmandu",
+            //                CountryId = Guid.Parse("B7078C84-62DD-4551-BA74-DAD88E597492"),
+
+            //            },
+
+            //           
+
+
+            //        });
+            //    }
+
+
+            _db = contactsManagerDbContext;
+            _countriesService = countriesService;
         }
 
         #region PersonResponse
@@ -198,7 +139,8 @@ namespace Services
             // so we dont have to generate new country id here
 
             //3. adding person to the list
-            _persons.Add(person);
+            _db.Persons.Add(person);
+            _db.SaveChanges();
 
             //4. convert the domain model person to personresponse dto
 
@@ -213,7 +155,7 @@ namespace Services
 
         public List<PersonResponse> GetAllPersons()
         {
-            return _persons.Select(person => ConvertPersonToPersonResponse_WithCountryName(person)).ToList();
+            return _db.Persons.ToList().Select(person => ConvertPersonToPersonResponse_WithCountryName(person)).ToList();
         }
         #endregion
 
@@ -231,7 +173,7 @@ namespace Services
 
             // since if the id doesnt match it returns null so we should make it nullable type
 
-            Person? foundPerson = _persons.FirstOrDefault(person => person.PersonId == personId);
+            Person? foundPerson = _db.Persons.FirstOrDefault(person => person.PersonId == personId);
 
             if (foundPerson == null) return null;
             return ConvertPersonToPersonResponse_WithCountryName(foundPerson);
@@ -396,7 +338,7 @@ namespace Services
 
             //2. check if the personId is valid or not
 
-            if(personUpdateReqObj.PersonId ==Guid.Empty || !_persons.Any(person => person.PersonId == personUpdateReqObj.PersonId))
+            if(personUpdateReqObj.PersonId ==Guid.Empty || !_db.Persons.Any(person => person.PersonId == personUpdateReqObj.PersonId))
             {
                 throw new ArgumentException("Invalid PersonId");
             }
@@ -425,13 +367,15 @@ namespace Services
             // another method 
 
             // since Person is class which is of reference type so personToBeUpdated will have the actual reference fo the object in the _person list 
-            Person personToBeUpdated = _persons.First(person => person.PersonId == personUpdateReqObj.PersonId);
+            Person personToBeUpdated = _db.Persons.First(person => person.PersonId == personUpdateReqObj.PersonId);
 
             personToBeUpdated.PersonName = personUpdateReqObj.PersonName != null ? personUpdateReqObj.PersonName : personToBeUpdated.PersonName;
             personToBeUpdated.Address = personUpdateReqObj.Address != null ? personUpdateReqObj.Address : personToBeUpdated.Address;
             personToBeUpdated.CountryId = personUpdateReqObj.CountryId != null ? personUpdateReqObj.CountryId : personToBeUpdated.CountryId;
             personToBeUpdated.DateOfBirth = personUpdateReqObj.DateOfBirth != null ? personUpdateReqObj.DateOfBirth : personToBeUpdated.DateOfBirth;
             personToBeUpdated.Email = personUpdateReqObj.Email != null ? personUpdateReqObj.Email : personToBeUpdated.Email;
+
+            _db.SaveChanges();
 
 
             return ConvertPersonToPersonResponse_WithCountryName(personToBeUpdated);
@@ -454,18 +398,19 @@ namespace Services
 
             //2. check if the personid is valid or not
 
-            if(personId==Guid.Empty || !_persons.Any(person => person.PersonId == personId))
+            if(personId==Guid.Empty || !_db.Persons.Any(person => person.PersonId == personId))
             {
                 throw new ArgumentException("invalid person id");
             }
 
             //3. if everything is valid then delete the person from the list 
 
-            Person matchedPerson = _persons.First(person => person.PersonId == personId);
+            Person matchedPerson = _db.Persons.First(person => person.PersonId == personId);
 
             //_persons.RemoveAll(person=>person.PersonId==matchedPerson.PersonId);
 
-            _persons.Remove(matchedPerson);
+            _db.Persons.Remove(matchedPerson);
+            _db.SaveChanges();
 
             return matchedPerson.ConvertPersonToPersonResponse();
 
