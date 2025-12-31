@@ -1,0 +1,50 @@
+[
+  {
+    "Id": "B7078C84-62DD-4551-BA74-DAD88E597492",
+    "CountryName": "Nepal"
+  },
+  {
+    "Id": "A055FA40-94C0-43AE-83B0-86138B267297",
+    "CountryName": "India"
+  },
+  {
+    "Id": "C85C09FF-9DA2-44F8-AA86-59502FC3737F",
+    "CountryName": "Bhutan"
+  },
+  {
+    "Id": "07481067-C679-4A48-9823-4B04F7E353E0",
+    "CountryName": "Pakistan"
+  },
+  {
+    "Id": "FEFC9D80-FB10-4114-AC9C-3F0F9E999974",
+    "CountryName": "Bangladesh"
+  },
+  {
+    "Id": "7DA058F2-DFBE-446B-BD9F-C68338399AED",
+    "CountryName": "Srilanka"
+  },
+  {
+    "Id": "57643CCC-1371-4445-B92C-C74A6E428ED1",
+    "CountryName": "Maldives"
+  },
+  {
+    "Id": "D12A7F42-8B3E-4F76-9C3B-2F17E0C7A1B5",
+    "CountryName": "Afghanistan"
+  },
+  {
+    "Id": "E7F2B910-0C4D-4B5A-84D5-3C1F9D2B7E88",
+    "CountryName": "Germany"
+  },
+  {
+    "Id": "F19A3D2B-6E7C-4F5D-BFA1-8D9C7E1B4A90",
+    "CountryName": "USA"
+  },
+  {
+    "Id": "A91F3C12-2B8D-4D5E-9F3C-1E2B7C8D9A45",
+    "CountryName": "China"
+  },
+  {
+    "Id": "C2B1D34F-7A5C-4E6B-B2D3-9F1A7B2C3D4E",
+    "CountryName": "Japan"
+  }
+]

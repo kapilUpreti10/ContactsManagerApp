@@ -1,4 +1,6 @@
-﻿namespace Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Entities
 {
 
     // here the real world obj(country) is entity which represnt one table in db ie it is model class
@@ -17,7 +19,15 @@
     public class Country
     {
 
+        // since this entitys acts as table in db so it must have primary key 
+
+        [Key]
         public Guid Id { get; set; }
+
+        // similary like in sql we use to give varchar length here we can use data annotations to give max length to 
+        // string properties
+
+        [StringLength(20)]
         public string? CountryName { get; set; }
 
 
