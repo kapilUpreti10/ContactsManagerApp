@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.dto;
 using Services;
@@ -22,7 +24,7 @@ namespace FirstTest
 
         public CountriesServiceTest()
         {
-            _countriesService = new CountriesService(false); // here we are manually creating the object of CountriesService class which is hold by 
+            _countriesService = new CountriesService(new Entities.ContactsManagerDbContext(new DbContextOptionsBuilder<ContactsManagerDbContext>().Options)); // here we are manually creating the object of CountriesService class which is hold by 
                                                         // reference variable of type ICountriesService interface
 
 

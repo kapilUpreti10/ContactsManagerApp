@@ -5,6 +5,7 @@ using ServiceContracts.dto;
 using ServiceContracts.enums;
 using Services.Helpers;
 using System.ComponentModel.DataAnnotations;
+using Entities.Migrations;
 
 
 namespace Services
@@ -155,7 +156,14 @@ namespace Services
 
         public List<PersonResponse> GetAllPersons()
         {
-            return _db.Persons.ToList().Select(person => ConvertPersonToPersonResponse_WithCountryName(person)).ToList();
+            //return _db.Persons.ToList().Select(person => ConvertPersonToPersonResponse_WithCountryName(person)).ToList();
+
+
+            // here we will be using stored procedures to get all the persons 
+
+            return _db.sp_GetAllThePersons().Select(person => ConvertPersonToPersonResponse_WithCountryName(person)).ToList();
+
+            
         }
         #endregion
 

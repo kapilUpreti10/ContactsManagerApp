@@ -93,5 +93,14 @@ namespace Entities
                 modelBuilder.Entity<Person>().HasData(person);
             }
         }
+
+        public List<Person> sp_GetAllThePersons()
+        {
+            // here Persons is a dbset name defined above in this class and FromSqlRaw is a method which
+            // executes the stored procedure and returns the result which 
+            // is of type IQueryable<Person> type  so if we want the result ot be in the list we should convert it into the list 
+             
+            return Persons.FromSqlRaw("EXECUTE [dbo].[GetAllPersons]").ToList();
+        }
     }
 }

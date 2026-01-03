@@ -9,6 +9,7 @@ using Xunit.Sdk;
 using System.Net.Http.Headers;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore;
 
 namespace FirstTest
 {
@@ -20,8 +21,8 @@ namespace FirstTest
 
         public PersonServiceTest()
         {
-            _personService = new PersonService(false);
-            _countriesService = new CountriesService(false);
+            _countriesService = new CountriesService(new ContactsManagerDbContext(new DbContextOptionsBuilder<ContactsManagerDbContext>().Options));
+            _personService = new PersonService(new ContactsManagerDbContext(new DbContextOptionsBuilder<ContactsManagerDbContext>().Options),_countriesService);
         }
 
 
