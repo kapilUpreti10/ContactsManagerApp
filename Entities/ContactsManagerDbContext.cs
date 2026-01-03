@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using Microsoft.Data.SqlClient;
 
 
 
@@ -101,6 +102,25 @@ namespace Entities
             // is of type IQueryable<Person> type  so if we want the result ot be in the list we should convert it into the list 
              
             return Persons.FromSqlRaw("EXECUTE [dbo].[GetAllPersons]").ToList();
+        }
+
+        // creating antoher method for inserting person using stored procedure
+
+        public int sp_CreatePerson(Person person)
+        {
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@PersonId",person.PersonId),
+                new SqlParameter("@PersonName",person.PersonName??(object)DBNull.Value),
+                new SqlParameter("@Email",person.Email??(object)DBNull.Value),
+                new SqlParameter("@DateOfBirth",person.DateOfBirth??(object)DBNull.Value),
+                new SqlParameter("@Gender",person.Gender??(object)DBNull.Value),
+                new SqlParameter("@Address",person.Address??(object)DBNull.Value),
+                new SqlParameter("@CountryId",person.CountryId??(object)DBNull.Value)
+
+                // here the order of this parameter doesnt matter with the stored procedure parameter order as we are using named parameteres
+            };
+            return Database.ExecuteSqlRaw("EXECUTE [dbo].[CreatePerson] @PersonId,@PersonName,@Email,@DateOfBirth,@Gender,@Address,@CountryId",parameters);
         }
     }
 }

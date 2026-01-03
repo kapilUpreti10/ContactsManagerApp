@@ -140,8 +140,11 @@ namespace Services
             // so we dont have to generate new country id here
 
             //3. adding person to the list
-            _db.Persons.Add(person);
-            _db.SaveChanges();
+            //_db.Persons.Add(person);
+            //_db.SaveChanges();
+
+            // now instead of above add method and saveChanges we use the stored procedures
+            _db.sp_CreatePerson(person);
 
             //4. convert the domain model person to personresponse dto
 
