@@ -377,20 +377,32 @@ namespace Services
 
             // another method 
 
-            // since Person is class which is of reference type so personToBeUpdated will have the actual reference fo the object in the _person list 
-            Person personToBeUpdated = _db.Persons.First(person => person.PersonId == personUpdateReqObj.PersonId);
+            //// since Person is class which is of reference type so personToBeUpdated will have the actual reference fo the object in the _person list 
+            //Person personToBeUpdated = _db.Persons.First(person => person.PersonId == personUpdateReqObj.PersonId);
 
-            personToBeUpdated.PersonName = personUpdateReqObj.PersonName != null ? personUpdateReqObj.PersonName : personToBeUpdated.PersonName;
-            personToBeUpdated.Address = personUpdateReqObj.Address != null ? personUpdateReqObj.Address : personToBeUpdated.Address;
-            personToBeUpdated.CountryId = personUpdateReqObj.CountryId != null ? personUpdateReqObj.CountryId : personToBeUpdated.CountryId;
-            personToBeUpdated.DateOfBirth = personUpdateReqObj.DateOfBirth != null ? personUpdateReqObj.DateOfBirth : personToBeUpdated.DateOfBirth;
-            personToBeUpdated.Email = personUpdateReqObj.Email != null ? personUpdateReqObj.Email : personToBeUpdated.Email;
+            //personToBeUpdated.PersonName = personUpdateReqObj.PersonName != null ? personUpdateReqObj.PersonName : personToBeUpdated.PersonName;
+            //personToBeUpdated.Address = personUpdateReqObj.Address != null ? personUpdateReqObj.Address : personToBeUpdated.Address;
+            //personToBeUpdated.CountryId = personUpdateReqObj.CountryId != null ? personUpdateReqObj.CountryId : personToBeUpdated.CountryId;
+            //personToBeUpdated.DateOfBirth = personUpdateReqObj.DateOfBirth != null ? personUpdateReqObj.DateOfBirth : personToBeUpdated.DateOfBirth;
+            //personToBeUpdated.Email = personUpdateReqObj.Email != null ? personUpdateReqObj.Email : personToBeUpdated.Email;
 
-            _db.SaveChanges();
+            //_db.SaveChanges();
 
 
-            return ConvertPersonToPersonResponse_WithCountryName(personToBeUpdated);
+            // writting interms of stored Procedures 
 
+            bool personExists = _db.Persons.Any(person => person.PersonId == personUpdateReqObj.PersonId);
+            if (!personExists)
+            {
+                throw new ArgumentException("Person with given id does not exist");
+            }
+           
+                Person personToBeUpdated = personUpdateReqObj.personUpdateRequestDTO_ToPerson();
+
+                _db.sp_UpdatePerson(personToBeUpdated);
+
+                return ConvertPersonToPersonResponse_WithCountryName(personToBeUpdated);
+       
             }
         #endregion
 

@@ -18,7 +18,7 @@ namespace Entities.Migrations
                      @DateOfBirth datetime2(7), 
                         @Gender nvarchar(max),
                         @Address nvarchar(max),
-                        @CountryId uniqueidentifier)
+                        @CountryId  )
                      as begin 
                      update [dbo].[Persons]
                       set 

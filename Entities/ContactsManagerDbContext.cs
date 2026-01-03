@@ -122,5 +122,23 @@ namespace Entities
             };
             return Database.ExecuteSqlRaw("EXECUTE [dbo].[CreatePerson] @PersonId,@PersonName,@Email,@DateOfBirth,@Gender,@Address,@CountryId",parameters);
         }
+
+        // function for udpating the person detials 
+
+        public int sp_UpdatePerson(Person person)
+        {
+            SqlParameter[] parameters = new SqlParameter[]
+             {
+                     new SqlParameter("@PersonId", person.PersonId),
+                     new SqlParameter("@PersonName", person.PersonName ?? (object)DBNull.Value),
+                     new SqlParameter("@Email", person.Email ?? (object)DBNull.Value),
+                     new SqlParameter("@DateOfBirth", person.DateOfBirth ?? (object)DBNull.Value),
+                     new SqlParameter("@Gender", person.Gender ?? (object)DBNull.Value),
+                     new SqlParameter("@Address", person.Address ?? (object)DBNull.Value),
+                     new SqlParameter("@CountryId", person.CountryId ?? (object)DBNull.Value),
+
+             };
+            return Database.ExecuteSqlRaw("EXECUTE [dbo].[UpdatePerson] @PersonId, @PersonName,@Email,@DateOfBirth,@Gender,@Address,@CountryId", parameters);
+        }
     }
 }
