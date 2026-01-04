@@ -14,12 +14,13 @@ namespace Entities.Migrations
             string sp_CreatePerson = @"
                 create procedure [dbo].[CreatePerson]
                    ( @PersonId uniqueidentifier,
-                    @PersonName nvarchar(max),
-                    @Email nvarchar(max),
+                    @PersonName nvarchar(100),
+                    @Email nvarchar(100),
                     @DateOfBirth datetime2(7),
-                    @Gender nvarchar(max),
-                    @Address nvarchar(max),
+                    @Gender nvarchar(50),
+                    @Address nvarchar(100),
                     @CountryId uniqueidentifier
+                    @TIN 
                    as begin 
                     insert into [dbo].[Persons](PersonId,PersonName,Email,DateOfBirth,Gender,Address,CountryId)
                     values(@PersonId,@PersonName,@Email,@DateOfBirth,@Gender,@Address,@CountryId);

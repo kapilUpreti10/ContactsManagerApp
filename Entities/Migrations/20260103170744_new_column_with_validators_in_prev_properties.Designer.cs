@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(ContactsManagerDbContext))]
-    [Migration("20260103142611_FinalFixInCreatePerson_StoredProcedures")]
-    partial class FinalFixInCreatePerson_StoredProcedures
+    [Migration("20260103170744_new_column_with_validators_in_prev_properties")]
+    partial class new_column_with_validators_in_prev_properties
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,7 +109,8 @@ namespace Entities.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid?>("CountryId")
                         .HasColumnType("uniqueidentifier");
@@ -118,12 +119,18 @@ namespace Entities.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("PersonName")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("TIN")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PersonId");

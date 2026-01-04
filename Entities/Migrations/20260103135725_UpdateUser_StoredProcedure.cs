@@ -13,11 +13,11 @@ namespace Entities.Migrations
             string sp_UpdatePerson = @"
                 create procedure [dbo].[UpdatePerson]
                     (@PersonId uniqueidentifier,
-                     @PersonName nvarchar(max),
-                     @Email nvarchar(max),
+                     @PersonName nvarchar(100),
+                     @Email nvarchar(100),
                      @DateOfBirth datetime2(7), 
-                        @Gender nvarchar(max),
-                        @Address nvarchar(max),
+                        @Gender nvarchar(50),
+                        @Address nvarchar(100),
                         @CountryId  )
                      as begin 
                      update [dbo].[Persons]
